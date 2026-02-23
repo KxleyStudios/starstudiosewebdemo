@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <canvas id="galaxy-bg"></canvas>
+
     <div class="container">
         <header>
             <img src="logo.png" alt="Studio Logo" class="logo">
@@ -52,7 +54,7 @@
             <div class="project">
                 <div class="project-text">
                     <h3>I'M SCARED OF ALOTTA STUFF</h3>
-                    <p>I’m Scared of a Lot of Stuff is a supernatural comedy-horror series about a group of teens forced to face their fears when godlike beings turn anxiety, trauma, and insecurity into real monsters. It’s funny, messy, and emotional. Showing that bravery isn’t about being fearless, but about facing what scares you anyway.</p>
+                    <p>I'm Scared of a Lot of Stuff is a supernatural comedy-horror series about a group of teens forced to face their fears when godlike beings turn anxiety, trauma, and insecurity into real monsters. It's funny, messy, and emotional. Showing that bravery isn't about being fearless, but about facing what scares you anyway.</p>
                 </div>
                 <div class="project-image">
                     <img src="scared.png" alt="I'm Scared of Alotta Stuff">
@@ -75,5 +77,154 @@
             <a href="https://www.kickstarter.com" class="kickstarter-link" target="_blank">Support Us on Kickstarter</a>
         </section>
     </div>
+
+    <script>
+    // ── Galaxy Background: Perlin Noise + Starfield ───────────────────────────
+    const canvas = document.getElementById('galaxy-bg');
+    const ctx = canvas.getContext('2d');
+
+    // --- Perlin noise setup ---
+    const p = new Uint8Array(256);
+    for (let i = 0; i < 256; i++) p[i] = i;
+    for (let i = 255; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [p[i], p[j]] = [p[j], p[i]];
+    }
+    const perm = new Uint8Array(512);
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+
+    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function lerp(a, b, t) { return a + t * (b - a); }
+    function grad(hash, x, y) {
+        const h = hash & 3;
+        const u = h < 2 ? x : y, v = h < 2 ? y : x;
+        return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
+    }
+    function noise(x, y) {
+        const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+        x -= Math.floor(x); y -= Math.floor(y);
+        const u = fade(x), v = fade(y);
+        const a = perm[X] + Y, b = perm[X + 1] + Y;
+        return lerp(
+            lerp(grad(perm[a],     x,     y),     grad(perm[b],     x - 1, y),     u),
+            lerp(grad(perm[a + 1], x,     y - 1), grad(perm[b + 1], x - 1, y - 1), u),
+            v
+        );
+    }
+    function fbm(x, y, octaves = 5) {
+        let val = 0, amp = 0.5, freq = 1, max = 0;
+        for (let i = 0; i < octaves; i++) {
+            val += noise(x * freq, y * freq) * amp;
+            max += amp; amp *= 0.5; freq *= 2.1;
+        }
+        return val / max;
+    }
+
+    // --- Colour mapping: void black → midnight blue → indigo → deep purple nebula ---
+    function noiseToColor(n) {
+        const t = (n + 1) * 0.5; // remap -1..1 → 0..1
+        if (t < 0.28) {
+            const f = t / 0.28;
+            return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)];      // near-black → midnight blue
+        } else if (t < 0.52) {
+            const f = (t - 0.28) / 0.24;
+            return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)];    // midnight blue → deep indigo #1E1B6A
+        } else if (t < 0.74) {
+            const f = (t - 0.52) / 0.22;
+            return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)];  // indigo → royal blue #2A1F8F
+        } else {
+            const f = Math.min((t - 0.74) / 0.26, 1);
+            return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; // → purple nebula #7B2CBF
+        }
+    }
+
+    // --- Stars ---
+    let stars = [];
+    function initStars() {
+        stars = [];
+        const count = Math.floor((canvas.width * canvas.height) / 4500);
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.15,
+                alpha: Math.random() * 0.55 + 0.35,
+                speed: Math.random() * 0.015 + 0.004,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    // --- Off-screen low-res noise canvas ---
+    let noiseCanvas, noiseCtx;
+    const SCALE = 4; // render noise at 1/4 resolution, scale up smoothly
+
+    function buildNoiseCanvas() {
+        noiseCanvas = document.createElement('canvas');
+        noiseCanvas.width  = Math.ceil(canvas.width  / SCALE);
+        noiseCanvas.height = Math.ceil(canvas.height / SCALE);
+        noiseCtx = noiseCanvas.getContext('2d');
+    }
+
+    function drawNoise(t) {
+        const w = noiseCanvas.width, h = noiseCanvas.height;
+        const img = noiseCtx.createImageData(w, h);
+        const xScale = 0.003, yScale = 0.003;
+        const drift = t * 0.014;
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                const n = fbm(x * xScale + drift, y * yScale + drift * 0.55);
+                const [r, g, b] = noiseToColor(n);
+                const i = (y * w + x) * 4;
+                img.data[i]     = r;
+                img.data[i + 1] = g;
+                img.data[i + 2] = b;
+                img.data[i + 3] = 255;
+            }
+        }
+        noiseCtx.putImageData(img, 0, 0);
+    }
+
+    function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+        buildNoiseCanvas();
+        initStars();
+    }
+
+    let lastNoise = -999, noiseTime = 0;
+    const NOISE_INTERVAL = 0.15; // seconds between noise redraws
+
+    function animate(ts) {
+        noiseTime = ts * 0.001;
+
+        if (noiseTime - lastNoise > NOISE_INTERVAL) {
+            drawNoise(noiseTime);
+            lastNoise = noiseTime;
+        }
+
+        // Draw noise (stretched up smoothly via canvas scaling)
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height);
+
+        // Draw twinkling stars
+        for (const s of stars) {
+            const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase));
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`;
+            ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    resize();
+    drawNoise(0);
+    requestAnimationFrame(animate);
+    </script>
 </body>
 </html>
