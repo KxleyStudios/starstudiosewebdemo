@@ -359,6 +359,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: none;
 }
 .ep-desc {
     font-size: 13px;
@@ -478,14 +479,15 @@
         </div>
         <div class="show-card full">
             <h2>UPDATES</h2>
-            <div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>Monster designs in progress</strong><p>The team is working on visual concepts for the fear-monsters. First reveals coming to Discord soon.</p></div></div>
-            <div class="update-item"><span class="update-date">Feb 2025</span><div class="update-body"><strong>Cast roster finalized</strong><p>All main teen characters have been locked in with their core fears mapped out.</p></div></div>
-            <div class="update-item"><span class="update-date">Nov 2024</span><div class="update-body"><strong>Pilot script first draft complete</strong><p>Episode one's script is in revision. It's scary in all the right ways.</p></div></div>
+            <div class="update-item"><span class="update-date">Mar 2</span><div class="update-body"><strong>Intro completed</strong><p>The show's intro sequence has been finished.</p></div></div>
+            <div class="update-item"><span class="update-date">Feb 2</span><div class="update-body"><strong>Cast reveal</strong><p>The voice cast for the series was officially revealed.</p></div></div>
+            <div class="update-item"><span class="update-date">Dec 17</span><div class="update-body"><strong>Trailer script completed</strong><p>The trailer script has been written and locked in.</p></div></div>
+            <div class="update-item"><span class="update-date">Aug 26</span><div class="update-body"><strong>Pilot script completed</strong><p>The pilot episode script has been finished.</p></div></div>
         </div>
         <div class="show-card full">
-            <h2>EPISODES</h2>
+            <h2>CONTENT</h2>
             <div class="episodes-list" id="episodes-container">
-                <div class="episodes-loading">Loading episodes...</div>
+                <div class="episodes-loading">Loading content...</div>
             </div>
         </div>
     </div>
@@ -626,13 +628,10 @@ requestAnimationFrame(animate);
 (function() {
     const PLAYLIST_ID = 'PLb_p87Nr8sJLjEk5daxWNuEvzpToKZCFe';
     const container = document.getElementById('episodes-container');
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?playlist_id=' + PLAYLIST_ID;
+    const corsProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
 
-    // Use noembed/oembed trick — fetch playlist page via noembed
-    // Actually use the YouTube playlist RSS feed which is publicly accessible
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`;
-    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-    container.innerHTML = '<div class="episodes-loading">Loading episodes...</div>';
+    container.innerHTML = '<div class="episodes-loading">Loading content...</div>';
 
     fetch(corsProxy)
         .then(r => r.json())
@@ -642,7 +641,7 @@ requestAnimationFrame(animate);
             const entries = xml.querySelectorAll('entry');
 
             if (!entries.length) {
-                container.innerHTML = `<div class="episodes-error">No episodes found yet. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">View playlist on YouTube →</a></div>`;
+                container.innerHTML = '<div class="episodes-error">No content yet. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">View on YouTube</a></div>';
                 return;
             }
 
@@ -652,29 +651,25 @@ requestAnimationFrame(animate);
                 const videoId = entry.querySelector('videoId')?.textContent || '';
                 const link = entry.querySelector('link')?.getAttribute('href') || '#';
                 const desc = entry.querySelector('description')?.textContent || '';
-                const thumb = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                const epNum = `Episode ${i + 1}`;
+                const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
 
-                html += `
-                <a href="${link}" class="episode-item" target="_blank">
-                    <div class="ep-thumb">
-                        <img src="${thumb}" alt="${title}" loading="lazy">
-                        <div class="ep-play">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                    <div class="ep-info">
-                        <div class="ep-num">${epNum}</div>
-                        <div class="ep-title">${title}</div>
-                        <div class="ep-desc">${desc.slice(0, 120)}${desc.length > 120 ? '…' : ''}</div>
-                    </div>
-                </a>`;
+                html += '<a href="' + link + '" class="episode-item" target="_blank">' +
+                    '<div class="ep-thumb">' +
+                        '<img src="' + thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy">' +
+                        '<div class="ep-play"><svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>' +
+                    '</div>' +
+                    '<div class="ep-info">' +
+                        '<div class="ep-num">Content ' + (i + 1) + '</div>' +
+                        '<div class="ep-title">' + title + '</div>' +
+                        '<div class="ep-desc">' + desc.slice(0, 120) + (desc.length > 120 ? '…' : '') + '</div>' +
+                    '</div>' +
+                '</a>';
             });
 
             container.innerHTML = html;
         })
         .catch(() => {
-            container.innerHTML = `<div class="episodes-error">Couldn't load episodes automatically. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">Watch on YouTube →</a></div>`;
+            container.innerHTML = '<div class="episodes-error">Could not load content. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">Watch on YouTube</a></div>';
         });
 })();
 </script>

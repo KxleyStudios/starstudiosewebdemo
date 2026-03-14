@@ -359,6 +359,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: none;
 }
 .ep-desc {
     font-size: 13px;
@@ -478,14 +479,12 @@
         </div>
         <div class="show-card full">
             <h2>UPDATES</h2>
-            <div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>World-building in progress</strong><p>Designing the alien home planets and the AAH organization's infrastructure.</p></div></div>
-            <div class="update-item"><span class="update-date">Feb 2025</span><div class="update-body"><strong>Character designs shared on Discord</strong><p>Community helped vote on the final look for Socks. Results were very chaotic.</p></div></div>
-            <div class="update-item"><span class="update-date">Dec 2024</span><div class="update-body"><strong>Concept approved</strong><p>HSH officially enters the Star Studios roster as an original series.</p></div></div>
+            <div class="update-item"><span class="update-date">—</span><div class="update-body"><strong>No updates yet</strong><p>Check back soon for development news on Home Sweet Home.</p></div></div>
         </div>
         <div class="show-card full">
-            <h2>EPISODES</h2>
+            <h2>CONTENT</h2>
             <div class="episodes-list" id="episodes-container">
-                <div class="episodes-loading">Loading episodes...</div>
+                <div class="episodes-loading">Loading content...</div>
             </div>
         </div>
     </div>
@@ -626,13 +625,10 @@ requestAnimationFrame(animate);
 (function() {
     const PLAYLIST_ID = 'PLb_p87Nr8sJLF_k2LwASW_n5ouHVqlkpS';
     const container = document.getElementById('episodes-container');
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?playlist_id=' + PLAYLIST_ID;
+    const corsProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
 
-    // Use noembed/oembed trick — fetch playlist page via noembed
-    // Actually use the YouTube playlist RSS feed which is publicly accessible
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`;
-    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-    container.innerHTML = '<div class="episodes-loading">Loading episodes...</div>';
+    container.innerHTML = '<div class="episodes-loading">Loading content...</div>';
 
     fetch(corsProxy)
         .then(r => r.json())
@@ -642,7 +638,7 @@ requestAnimationFrame(animate);
             const entries = xml.querySelectorAll('entry');
 
             if (!entries.length) {
-                container.innerHTML = `<div class="episodes-error">No episodes found yet. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">View playlist on YouTube →</a></div>`;
+                container.innerHTML = '<div class="episodes-error">No content yet. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">View on YouTube</a></div>';
                 return;
             }
 
@@ -652,29 +648,25 @@ requestAnimationFrame(animate);
                 const videoId = entry.querySelector('videoId')?.textContent || '';
                 const link = entry.querySelector('link')?.getAttribute('href') || '#';
                 const desc = entry.querySelector('description')?.textContent || '';
-                const thumb = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                const epNum = `Episode ${i + 1}`;
+                const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
 
-                html += `
-                <a href="${link}" class="episode-item" target="_blank">
-                    <div class="ep-thumb">
-                        <img src="${thumb}" alt="${title}" loading="lazy">
-                        <div class="ep-play">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                    <div class="ep-info">
-                        <div class="ep-num">${epNum}</div>
-                        <div class="ep-title">${title}</div>
-                        <div class="ep-desc">${desc.slice(0, 120)}${desc.length > 120 ? '…' : ''}</div>
-                    </div>
-                </a>`;
+                html += '<a href="' + link + '" class="episode-item" target="_blank">' +
+                    '<div class="ep-thumb">' +
+                        '<img src="' + thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy">' +
+                        '<div class="ep-play"><svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>' +
+                    '</div>' +
+                    '<div class="ep-info">' +
+                        '<div class="ep-num">Content ' + (i + 1) + '</div>' +
+                        '<div class="ep-title">' + title + '</div>' +
+                        '<div class="ep-desc">' + desc.slice(0, 120) + (desc.length > 120 ? '…' : '') + '</div>' +
+                    '</div>' +
+                '</a>';
             });
 
             container.innerHTML = html;
         })
         .catch(() => {
-            container.innerHTML = `<div class="episodes-error">Couldn't load episodes automatically. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">Watch on YouTube →</a></div>`;
+            container.innerHTML = '<div class="episodes-error">Could not load content. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">Watch on YouTube</a></div>';
         });
 })();
 </script>

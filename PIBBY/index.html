@@ -359,6 +359,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: none;
 }
 .ep-desc {
     font-size: 13px;
@@ -478,14 +479,14 @@
         </div>
         <div class="show-card full">
             <h2>UPDATES</h2>
-            <div class="disclaimer-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;margin-right:6px"><path d="M1 21h22L12 2zm11-3h-2v-2h2zm0-4h-2v-4h2z"/></svg> NON-PROFIT, FANMADE project based on the canceled <em>Learning With Pibby: Apocalypse</em> trailer by CN/Adult Swim. No affiliation with Cartoon Network or Warner Bros.</div><div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>Corrupted world designs in progress</strong><p>The team is mapping out which cartoon worlds Pibby will travel through in the pilot arc.</p></div></div>
-            <div class="update-item"><span class="update-date">Jan 2025</span><div class="update-body"><strong>Story outline approved</strong><p>The full arc structure for Armageddon has been locked in by the writing team.</p></div></div>
-            <div class="update-item"><span class="update-date">Oct 2024</span><div class="update-body"><strong>Project announced</strong><p>Pibby: Armageddon officially announced on the Star Studios Discord to massive excitement.</p></div></div>
+            <div class="disclaimer-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;margin-right:6px"><path d="M1 21h22L12 2zm11-3h-2v-2h2zm0-4h-2v-4h2z"/></svg> NON-PROFIT, FANMADE project based on the canceled <em>Learning With Pibby: Apocalypse</em> trailer by CN/Adult Swim. No affiliation with Cartoon Network or Warner Bros.</div><div class="update-item"><span class="update-date">Mar 12</span><div class="update-body"><strong>Sound design fully completed</strong><p>All audio and sound design work for the project has been finished.</p></div></div>
+            <div class="update-item"><span class="update-date">Mar 1</span><div class="update-body"><strong>Scenes are being rough animated</strong><p>The animation team is working through rough animation passes on all scenes.</p></div></div>
+            <div class="update-item"><span class="update-date">Oct 30, 2026</span><div class="update-body"><strong>Hopeful release date</strong><p>The team is aiming for an October 30th 2026 release.</p></div></div>
         </div>
         <div class="show-card full">
-            <h2>EPISODES</h2>
+            <h2>CONTENT</h2>
             <div class="episodes-list" id="episodes-container">
-                <div class="episodes-loading">Loading episodes...</div>
+                <div class="episodes-loading">Loading content...</div>
             </div>
         </div>
     </div>
@@ -626,13 +627,10 @@ requestAnimationFrame(animate);
 (function() {
     const PLAYLIST_ID = 'PLb_p87Nr8sJJO61RvNZQARnoaiRMP6Fby';
     const container = document.getElementById('episodes-container');
+    const rssUrl = 'https://www.youtube.com/feeds/videos.xml?playlist_id=' + PLAYLIST_ID;
+    const corsProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
 
-    // Use noembed/oembed trick — fetch playlist page via noembed
-    // Actually use the YouTube playlist RSS feed which is publicly accessible
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`;
-    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-    container.innerHTML = '<div class="episodes-loading">Loading episodes...</div>';
+    container.innerHTML = '<div class="episodes-loading">Loading content...</div>';
 
     fetch(corsProxy)
         .then(r => r.json())
@@ -642,7 +640,7 @@ requestAnimationFrame(animate);
             const entries = xml.querySelectorAll('entry');
 
             if (!entries.length) {
-                container.innerHTML = `<div class="episodes-error">No episodes found yet. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">View playlist on YouTube →</a></div>`;
+                container.innerHTML = '<div class="episodes-error">No content yet. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">View on YouTube</a></div>';
                 return;
             }
 
@@ -652,29 +650,25 @@ requestAnimationFrame(animate);
                 const videoId = entry.querySelector('videoId')?.textContent || '';
                 const link = entry.querySelector('link')?.getAttribute('href') || '#';
                 const desc = entry.querySelector('description')?.textContent || '';
-                const thumb = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                const epNum = `Episode ${i + 1}`;
+                const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
 
-                html += `
-                <a href="${link}" class="episode-item" target="_blank">
-                    <div class="ep-thumb">
-                        <img src="${thumb}" alt="${title}" loading="lazy">
-                        <div class="ep-play">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                    <div class="ep-info">
-                        <div class="ep-num">${epNum}</div>
-                        <div class="ep-title">${title}</div>
-                        <div class="ep-desc">${desc.slice(0, 120)}${desc.length > 120 ? '…' : ''}</div>
-                    </div>
-                </a>`;
+                html += '<a href="' + link + '" class="episode-item" target="_blank">' +
+                    '<div class="ep-thumb">' +
+                        '<img src="' + thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy">' +
+                        '<div class="ep-play"><svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>' +
+                    '</div>' +
+                    '<div class="ep-info">' +
+                        '<div class="ep-num">Content ' + (i + 1) + '</div>' +
+                        '<div class="ep-title">' + title + '</div>' +
+                        '<div class="ep-desc">' + desc.slice(0, 120) + (desc.length > 120 ? '…' : '') + '</div>' +
+                    '</div>' +
+                '</a>';
             });
 
             container.innerHTML = html;
         })
         .catch(() => {
-            container.innerHTML = `<div class="episodes-error">Couldn't load episodes automatically. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">Watch on YouTube →</a></div>`;
+            container.innerHTML = '<div class="episodes-error">Could not load content. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">Watch on YouTube</a></div>';
         });
 })();
 </script>
