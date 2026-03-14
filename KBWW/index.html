@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kazz & Bibble: Wannabe Wizards — Star Studios</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../show.css">
     <style>
         :root {
             --accent: #B69DFF;
@@ -18,11 +17,287 @@
             --text-soft: #C8B8FF;
             --text-muted: #A89CC8;
         }
+/* ── Shared styles for all show pages ── */
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* NAV */
+.show-nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    background: rgba(12, 10, 46, 0.5);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+    font-family: 'Salda', Arial, sans-serif;
+}
+.back-link:hover { color: #fff; }
+
+.nav-studio {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--accent-dim);
+    text-transform: uppercase;
+}
+
+/* HERO */
+.show-hero {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 24px 20px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(14, 11, 61, 0.45);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    backdrop-filter: blur(18px);
+}
+
+.hero-img { flex: 0 0 220px; }
+.hero-img img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+}
+
+.hero-info { flex: 1; }
+
+.show-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.hero-info h1 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 30px;
+    line-height: 1.2;
+    color: #EDE9FF;
+    margin-bottom: 16px;
+}
+
+.hero-info p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.7;
+}
+
+.status-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: var(--accent-bg2);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    font-family: 'Salda', Arial, sans-serif;
+}
+.badge-green {
+    background: rgba(0, 200, 120, 0.12);
+    border-color: rgba(0, 200, 120, 0.35);
+    color: #6EFFC5;
+}
+.badge-orange {
+    background: rgba(255, 165, 0, 0.12);
+    border-color: rgba(255, 165, 0, 0.35);
+    color: #FFD080;
+}
+
+/* CONTENT GRID */
+.show-content {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    animation: fadeInUp 0.7s ease-out 0.15s both;
+}
+
+.show-card {
+    background: rgba(14, 11, 61, 0.45);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    backdrop-filter: blur(16px);
+}
+.show-card.full { grid-column: 1 / -1; }
+
+.show-card h2 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.show-card h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.card-body {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.8;
+}
+
+/* UPDATES */
+.update-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.update-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.update-date {
+    flex: 0 0 90px;
+    font-size: 12px;
+    color: var(--accent-dim);
+    padding-top: 2px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.update-body strong {
+    display: block;
+    font-size: 14px;
+    color: #EDE9FF;
+    margin-bottom: 4px;
+}
+.update-body p { font-size: 13px; color: var(--text-muted); }
+
+/* TEASERS */
+.teaser-item {
+    background: var(--accent-bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+}
+.teaser-item:last-child { margin-bottom: 0; }
+
+.teaser-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.teaser-item p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+
+/* CHARACTERS */
+.char-list { display: flex; flex-direction: column; gap: 12px; }
+
+.char-item { display: flex; gap: 14px; align-items: flex-start; }
+
+.char-icon {
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.char-info strong { display: block; font-size: 14px; color: #EDE9FF; }
+.char-info span { font-size: 13px; color: var(--text-muted); }
+
+/* GENRE TAGS */
+.genre-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.genre-tag {
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: var(--accent-bg);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.card-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* DISCLAIMER */
+.disclaimer-box {
+    background: rgba(255, 165, 0, 0.08);
+    border: 1px solid rgba(255, 165, 0, 0.25);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #FFD080;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 680px) {
+    .show-content { grid-template-columns: 1fr; }
+    .show-card.full { grid-column: 1; }
+    .hero-inner { flex-direction: column; text-align: center; }
+    .status-row { justify-content: center; }
+    .show-nav { padding: 16px 20px; }
+}
+
     </style>
 </head>
 <body>
     <canvas id="galaxy-bg"></canvas>
-
     <nav class="show-nav">
         <a href="../index.html" class="back-link">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -30,12 +305,9 @@
         </a>
         <span class="nav-studio">Star Studios</span>
     </nav>
-
     <div class="show-hero">
         <div class="hero-inner">
-            <div class="hero-img">
-                <img src="../kazz-bibble.png" alt="Kazz and Bibble">
-            </div>
+            <div class="hero-img"><img src="../kazz-bibble.png" alt="Kazz and Bibble"></div>
             <div class="hero-info">
                 <span class="show-tag">Original Series</span>
                 <h1>KAZZ AND BIBBLE:<br>WANNABE WIZARDS</h1>
@@ -48,89 +320,158 @@
             </div>
         </div>
     </div>
-
     <div class="show-content">
-
         <div class="show-card full">
             <h2>FULL SYNOPSIS</h2>
             <p class="card-body">Kazz and Bibble are not real wizards. They failed every magic class, dropped out of school, and live in a moldy hill house with nothing to their names but ego and desperation. After accidentally completing a real wizarding job without using magic, they start a business offering magical services they are wildly unqualified for. Each job escalates in scale and danger, revealing cracks in their friendship — and maybe hints that one of them might actually have a spark of something real.</p>
         </div>
-
         <div class="show-card">
             <h2>UPDATES</h2>
-            <div class="update-item">
-                <span class="update-date">Mar 2025</span>
-                <div class="update-body">
-                    <strong>Concept development underway</strong>
-                    <p>Character designs and world-building for the pilot episode in progress.</p>
-                </div>
-            </div>
-            <div class="update-item">
-                <span class="update-date">Jan 2025</span>
-                <div class="update-body">
-                    <strong>Series greenlit internally</strong>
-                    <p>Story bible completed. Kazz & Bibble confirmed as a flagship original series.</p>
-                </div>
-            </div>
-            <div class="update-item">
-                <span class="update-date">Dec 2024</span>
-                <div class="update-body">
-                    <strong>First character sketches shared</strong>
-                    <p>Early designs posted on our Discord — community feedback was overwhelmingly positive!</p>
-                </div>
-            </div>
+            <div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>Concept development underway</strong><p>Character designs and world-building for the pilot episode in progress.</p></div></div>
+            <div class="update-item"><span class="update-date">Jan 2025</span><div class="update-body"><strong>Series greenlit internally</strong><p>Story bible completed. Kazz & Bibble confirmed as a flagship original series.</p></div></div>
+            <div class="update-item"><span class="update-date">Dec 2024</span><div class="update-body"><strong>First character sketches shared</strong><p>Early designs posted on our Discord — community feedback was overwhelmingly positive!</p></div></div>
         </div>
-
         <div class="show-card">
             <h2>TEASERS</h2>
-            <div class="teaser-item">
-                <div class="teaser-label">🧙 Pilot Teaser</div>
-                <p>"They had no plan, no wand, and no idea what they were doing. Somehow that was enough. For now."</p>
-            </div>
-            <div class="teaser-item">
-                <div class="teaser-label">💬 Dialogue Snippet</div>
-                <p><em>Kazz:</em> "That definitely worked." <em>Bibble:</em> "The building is on fire." <em>Kazz:</em> "Worked for us."</p>
-            </div>
-            <div class="teaser-item">
-                <div class="teaser-label">🗺️ World Hint</div>
-                <p>Set in a world where magic is bureaucratic and certified — and Kazz & Bibble are operating completely unlicensed.</p>
-            </div>
+            <div class="teaser-item"><div class="teaser-label">🧙 Pilot Teaser</div><p>"They had no plan, no wand, and no idea what they were doing. Somehow that was enough. For now."</p></div>
+            <div class="teaser-item"><div class="teaser-label">💬 Dialogue Snippet</div><p><em>Kazz:</em> "That definitely worked." <em>Bibble:</em> "The building is on fire." <em>Kazz:</em> "Worked for us."</p></div>
+            <div class="teaser-item"><div class="teaser-label">🗺️ World Hint</div><p>Set in a world where magic is bureaucratic and certified — and Kazz & Bibble are operating completely unlicensed.</p></div>
         </div>
-
         <div class="show-card">
             <h2>CHARACTERS</h2>
             <div class="char-list">
-                <div class="char-item">
-                    <div class="char-icon">🧙</div>
-                    <div class="char-info">
-                        <strong>Kazz</strong>
-                        <span>The loud one. All ego, zero credentials. Convinced he's secretly the greatest wizard alive.</span>
-                    </div>
-                </div>
-                <div class="char-item">
-                    <div class="char-icon">📚</div>
-                    <div class="char-info">
-                        <strong>Bibble</strong>
-                        <span>The worrier. Smarter than Kazz but too anxious to say no. Usually the one cleaning up the mess.</span>
-                    </div>
-                </div>
+                <div class="char-item"><div class="char-icon">🧙</div><div class="char-info"><strong>Kazz</strong><span>The loud one. All ego, zero credentials. Convinced he's secretly the greatest wizard alive.</span></div></div>
+                <div class="char-item"><div class="char-icon">📚</div><div class="char-info"><strong>Bibble</strong><span>The worrier. Smarter than Kazz but too anxious to say no. Usually the one cleaning up the mess.</span></div></div>
             </div>
         </div>
-
         <div class="show-card">
             <h2>GENRE & TONE</h2>
-            <div class="genre-tags">
-                <span class="genre-tag">Comedy</span>
-                <span class="genre-tag">Adventure</span>
-                <span class="genre-tag">Buddy Duo</span>
-                <span class="genre-tag">Fantasy</span>
-                <span class="genre-tag">Episodic</span>
-            </div>
+            <div class="genre-tags"><span class="genre-tag">Comedy</span><span class="genre-tag">Adventure</span><span class="genre-tag">Buddy Duo</span><span class="genre-tag">Fantasy</span><span class="genre-tag">Episodic</span></div>
             <p class="card-note">Think classic cartoon duo energy meets absurdist fantasy bureaucracy. Big laughs, bigger disasters, and a friendship that somehow survives it all.</p>
         </div>
-
     </div>
+    <script>// ── Galaxy Background: Perlin Noise + Starfield ───────────────────────────
+const canvas = document.getElementById('galaxy-bg');
+const ctx = canvas.getContext('2d');
 
-    <script src="../galaxy.js"></script>
+const p = new Uint8Array(256);
+for (let i = 0; i < 256; i++) p[i] = i;
+for (let i = 255; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [p[i], p[j]] = [p[j], p[i]];
+}
+const perm = new Uint8Array(512);
+for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+
+function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+function lerp(a, b, t) { return a + t * (b - a); }
+function grad(hash, x, y) {
+    const h = hash & 3;
+    const u = h < 2 ? x : y, v = h < 2 ? y : x;
+    return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
+}
+function noise(x, y) {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+    x -= Math.floor(x); y -= Math.floor(y);
+    const u = fade(x), v = fade(y);
+    const a = perm[X] + Y, b = perm[X + 1] + Y;
+    return lerp(
+        lerp(grad(perm[a],     x,     y),     grad(perm[b],     x - 1, y),     u),
+        lerp(grad(perm[a + 1], x,     y - 1), grad(perm[b + 1], x - 1, y - 1), u),
+        v
+    );
+}
+function fbm(x, y, octaves = 5) {
+    let val = 0, amp = 0.5, freq = 1, max = 0;
+    for (let i = 0; i < octaves; i++) {
+        val += noise(x * freq, y * freq) * amp;
+        max += amp; amp *= 0.5; freq *= 2.1;
+    }
+    return val / max;
+}
+function noiseToColor(n) {
+    const t = (n + 1) * 0.5;
+    if (t < 0.28) { const f = t / 0.28; return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)]; }
+    else if (t < 0.52) { const f = (t - 0.28) / 0.24; return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)]; }
+    else if (t < 0.74) { const f = (t - 0.52) / 0.22; return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)]; }
+    else { const f = Math.min((t - 0.74) / 0.26, 1); return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; }
+}
+
+let stars = [];
+function initStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 4500);
+    for (let i = 0; i < count; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.5 + 0.15,
+            alpha: Math.random() * 0.55 + 0.35,
+            speed: Math.random() * 0.015 + 0.004,
+            phase: Math.random() * Math.PI * 2
+        });
+    }
+}
+
+let noiseCanvas, noiseCtx;
+const SCALE = 4;
+
+function buildNoiseCanvas() {
+    noiseCanvas = document.createElement('canvas');
+    noiseCanvas.width  = Math.ceil(canvas.width  / SCALE);
+    noiseCanvas.height = Math.ceil(canvas.height / SCALE);
+    noiseCtx = noiseCanvas.getContext('2d');
+}
+
+function drawNoise(t) {
+    const w = noiseCanvas.width, h = noiseCanvas.height;
+    const img = noiseCtx.createImageData(w, h);
+    const xScale = 0.003, yScale = 0.003;
+    const drift = t * 0.014;
+    for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+            const n = fbm(x * xScale + drift, y * yScale + drift * 0.55);
+            const [r, g, b] = noiseToColor(n);
+            const i = (y * w + x) * 4;
+            img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255;
+        }
+    }
+    noiseCtx.putImageData(img, 0, 0);
+}
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+    buildNoiseCanvas();
+    initStars();
+}
+
+let lastNoise = -999, noiseTime = 0;
+const NOISE_INTERVAL = 0.15;
+
+function animate(ts) {
+    noiseTime = ts * 0.001;
+    if (noiseTime - lastNoise > NOISE_INTERVAL) {
+        drawNoise(noiseTime);
+        lastNoise = noiseTime;
+    }
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+        const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`;
+        ctx.fill();
+    }
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', resize);
+resize();
+drawNoise(0);
+requestAnimationFrame(animate);
+</script>
 </body>
 </html>
