@@ -10,14 +10,14 @@
         :root {
             --accent: #66E0FF;
             --accent2: #1A7FA8;
-            --border: rgba(102, 224, 255, 0.2);
-            --accent-dim: rgba(102, 224, 255, 0.5);
-            --accent-bg: rgba(102, 224, 255, 0.08);
-            --accent-bg2: rgba(26, 127, 168, 0.1);
+            --border: rgba(102,224,255,0.2);
+            --accent-dim: rgba(102,224,255,0.5);
+            --accent-bg: rgba(102,224,255,0.08);
+            --accent-bg2: rgba(26,127,168,0.1);
             --text-soft: #8EE8FF;
             --text-muted: #7ABFCC;
         }
-        /* ── Shared styles for all show pages ── */
+/* ── Shared styles for all show pages ── */
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -294,6 +294,157 @@
     .show-nav { padding: 16px 20px; }
 }
 
+
+/* EPISODES */
+.episodes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.episode-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: var(--accent-bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+.episode-item:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+}
+.ep-thumb {
+    flex: 0 0 160px;
+    height: 90px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.4);
+    position: relative;
+    flex-shrink: 0;
+}
+.ep-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.ep-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    transition: background 0.2s;
+}
+.episode-item:hover .ep-play { background: rgba(0,0,0,0.1); }
+.ep-info { flex: 1; min-width: 0; }
+.ep-num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 4px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+.ep-title {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 15px;
+    color: #EDE9FF;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ep-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.episodes-loading {
+    text-align: center;
+    padding: 30px;
+    color: var(--accent-dim);
+    font-size: 14px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+.episodes-error {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+.episodes-error a { color: var(--accent); }
+
+/* MERCH */
+.merch-section {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    animation: fadeInUp 0.7s ease-out 0.3s both;
+}
+.merch-inner {
+    background: rgba(14, 11, 61, 0.45);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    backdrop-filter: blur(16px);
+    text-align: center;
+}
+.merch-inner h2 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+.merch-inner p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+.merch-buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.merch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    background: var(--accent2);
+    padding: 13px 32px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 15px;
+    font-family: 'Salda', Arial, sans-serif;
+    transition: opacity 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+.merch-btn:hover { opacity: 0.85; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+.merch-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+}
+
+@media (max-width: 680px) {
+    .ep-thumb { flex: 0 0 110px; height: 65px; }
+    .ep-title { font-size: 13px; }
+}
+
     </style>
 </head>
 <body>
@@ -313,7 +464,7 @@
                 <h1>HOME SWEET HOME</h1>
                 <p>Three alien misfits hiding on Earth — the armpit of the universe — discover that blending in is a lot harder than it looks, especially when a secret organization is hunting them.</p>
                 <div class="status-row">
-                    <span class="badge badge-green">&#9679; In Development</span>
+                    <span class="badge badge-green"><svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" style="flex-shrink:0;margin-right:2px"><circle cx="4" cy="4" r="4"/></svg> In Development</span>
                     <span class="badge">Sci-Fi · Comedy</span>
                     <span class="badge">Original</span>
                 </div>
@@ -323,32 +474,29 @@
     <div class="show-content">
         <div class="show-card full">
             <h2>FULL SYNOPSIS</h2>
-            <p class="card-body">Socks, Velcra and Patches never belonged on their planets. The three misfits came to Earth — the armpit of the universe — to hide from their authorities, but they soon realize that life on Earth isn't so easy either. When the AAH (Alien Apprehension & Handling) organization discovers their true identities, the trio must navigate the absurdity of human life while staying one step ahead of the agents trying to bring them in. Found family, fish-out-of-water comedy, and actual stakes.</p>
+            <p class="card-body">Socks, Velcra and Patches never belonged on their planets. The three misfits came to Earth — the armpit of the universe — to hide from their authorities, but they soon realize that life on Earth isn't so easy either. When the AAH (Alien Apprehension & Handling) organization discovers their true identities, the trio must navigate the absurdity of human life while staying one step ahead of the agents trying to bring them in.</p>
         </div>
-        <div class="show-card">
+        <div class="show-card full">
             <h2>UPDATES</h2>
             <div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>World-building in progress</strong><p>Designing the alien home planets and the AAH organization's infrastructure.</p></div></div>
             <div class="update-item"><span class="update-date">Feb 2025</span><div class="update-body"><strong>Character designs shared on Discord</strong><p>Community helped vote on the final look for Socks. Results were very chaotic.</p></div></div>
             <div class="update-item"><span class="update-date">Dec 2024</span><div class="update-body"><strong>Concept approved</strong><p>HSH officially enters the Star Studios roster as an original series.</p></div></div>
         </div>
-        <div class="show-card">
-            <h2>TEASERS</h2>
-            <div class="teaser-item"><div class="teaser-label">&#128760; Premise Teaser</div><p>"They crossed the galaxy looking for somewhere to belong. They ended up in Ohio."</p></div>
-            <div class="teaser-item"><div class="teaser-label">&#128373;&#65039; Antagonist Hint</div><p>The AAH doesn't just want to capture them. They want to study them. And the director has a very personal reason for hunting these three specifically.</p></div>
-            <div class="teaser-item"><div class="teaser-label">&#128172; Dialogue Snippet</div><p><em>Socks:</em> "This 'pizza' substance. It is good." <em>Patches:</em> "You said that about toothpaste." <em>Socks:</em> "Also good."</p></div>
-        </div>
-        <div class="show-card">
-            <h2>CHARACTERS</h2>
-            <div class="char-list">
-                <div class="char-item"><div class="char-icon">&#129olean;</div><div class="char-info"><strong>Socks</strong><span>Enthusiastic about everything on Earth. Dangerously literal. Named themselves after the first human object they touched.</span></div></div>
-                <div class="char-item"><div class="char-icon">&#9889;</div><div class="char-info"><strong>Velcra</strong><span>Sharp, sarcastic, and desperate to get off this planet. Secretly loves it here but will never admit it.</span></div></div>
-                <div class="char-item"><div class="char-icon">&#129olean;</div><div class="char-info"><strong>Patches</strong><span>The cautious one. Keeps the group alive. Deeply worried that they are becoming too human.</span></div></div>
+        <div class="show-card full">
+            <h2>EPISODES</h2>
+            <div class="episodes-list" id="episodes-container">
+                <div class="episodes-loading">Loading episodes...</div>
             </div>
         </div>
-        <div class="show-card">
-            <h2>GENRE & TONE</h2>
-            <div class="genre-tags"><span class="genre-tag">Sci-Fi</span><span class="genre-tag">Comedy</span><span class="genre-tag">Found Family</span><span class="genre-tag">Action</span><span class="genre-tag">Fish-Out-Of-Water</span></div>
-            <p class="card-note">Aliens in suburbia meets secret agency thriller. Big heart, bigger disasters, and a trio who slowly realize Earth might actually be home.</p>
+    </div>
+    <div class="merch-section">
+        <div class="merch-inner">
+            <h2>SUPPORT STAR STUDIOS</h2>
+            <p>Help fund the team and grab some merch!</p>
+            <div class="merch-buttons">
+                <a href="https://star-studios-shop.fourthwall.com" class="merch-btn" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2z"/></svg> Get Merch</a>
+                <a href="https://www.patreon.com/cw/StarStudiosAnimation" class="merch-btn secondary" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg> Support on Patreon</a>
+            </div>
         </div>
     </div>
     <script>// ── Galaxy Background: Perlin Noise + Starfield ───────────────────────────
@@ -473,6 +621,62 @@ window.addEventListener('resize', resize);
 resize();
 drawNoise(0);
 requestAnimationFrame(animate);
+</script>
+    <script>
+(function() {
+    const PLAYLIST_ID = 'PLb_p87Nr8sJLF_k2LwASW_n5ouHVqlkpS';
+    const container = document.getElementById('episodes-container');
+
+    // Use noembed/oembed trick — fetch playlist page via noembed
+    // Actually use the YouTube playlist RSS feed which is publicly accessible
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`;
+    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+
+    container.innerHTML = '<div class="episodes-loading">Loading episodes...</div>';
+
+    fetch(corsProxy)
+        .then(r => r.json())
+        .then(data => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, 'text/xml');
+            const entries = xml.querySelectorAll('entry');
+
+            if (!entries.length) {
+                container.innerHTML = `<div class="episodes-error">No episodes found yet. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">View playlist on YouTube →</a></div>`;
+                return;
+            }
+
+            let html = '';
+            entries.forEach((entry, i) => {
+                const title = entry.querySelector('title')?.textContent || 'Untitled';
+                const videoId = entry.querySelector('videoId')?.textContent || '';
+                const link = entry.querySelector('link')?.getAttribute('href') || '#';
+                const desc = entry.querySelector('description')?.textContent || '';
+                const thumb = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                const epNum = `Episode ${i + 1}`;
+
+                html += `
+                <a href="${link}" class="episode-item" target="_blank">
+                    <div class="ep-thumb">
+                        <img src="${thumb}" alt="${title}" loading="lazy">
+                        <div class="ep-play">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="ep-info">
+                        <div class="ep-num">${epNum}</div>
+                        <div class="ep-title">${title}</div>
+                        <div class="ep-desc">${desc.slice(0, 120)}${desc.length > 120 ? '…' : ''}</div>
+                    </div>
+                </a>`;
+            });
+
+            container.innerHTML = html;
+        })
+        .catch(() => {
+            container.innerHTML = `<div class="episodes-error">Couldn't load episodes automatically. <a href="https://www.youtube.com/playlist?list=${PLAYLIST_ID}" target="_blank">Watch on YouTube →</a></div>`;
+        });
+})();
 </script>
 </body>
 </html>
