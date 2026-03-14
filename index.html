@@ -2,477 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Sweet Home — Star Studios</title>
-    <link rel="stylesheet" href="../styles.css">
+    <title>Star Studios Website</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        :root {
-            --accent: #66E0FF;
-            --accent2: #1A7FA8;
-            --border: rgba(102, 224, 255, 0.2);
-            --accent-dim: rgba(102, 224, 255, 0.5);
-            --accent-bg: rgba(102, 224, 255, 0.08);
-            --accent-bg2: rgba(26, 127, 168, 0.1);
-            --text-soft: #8EE8FF;
-            --text-muted: #7ABFCC;
+        .project {
+            backdrop-filter: blur(18px) saturate(1.5);
+            -webkit-backdrop-filter: blur(18px) saturate(1.5);
+            background: rgba(14, 11, 61, 0.35) !important;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
-        /* ── Shared styles for all show pages ── */
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* NAV */
-.show-nav {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 40px;
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(16px);
-    background: rgba(12, 10, 46, 0.5);
-}
-
-.back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 15px;
-    transition: color 0.2s;
-    font-family: 'Salda', Arial, sans-serif;
-}
-.back-link:hover { color: #fff; }
-
-.nav-studio {
-    font-family: 'Frank', Arial, sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--accent-dim);
-    text-transform: uppercase;
-}
-
-/* HERO */
-.show-hero {
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 60px 24px 20px;
-    animation: fadeInDown 0.6s ease-out;
-}
-
-.hero-inner {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    background: rgba(14, 11, 61, 0.45);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 36px;
-    backdrop-filter: blur(18px);
-}
-
-.hero-img { flex: 0 0 220px; }
-.hero-img img {
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 16px;
-    border: 2px solid var(--border);
-}
-
-.hero-info { flex: 1; }
-
-.show-tag {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 14px;
-    margin-bottom: 14px;
-    font-family: 'Salda', Arial, sans-serif;
-}
-
-.hero-info h1 {
-    font-family: 'Frank', Arial, sans-serif;
-    font-size: 30px;
-    line-height: 1.2;
-    color: #EDE9FF;
-    margin-bottom: 16px;
-}
-
-.hero-info p {
-    font-size: 15px;
-    color: var(--text-soft);
-    line-height: 1.7;
-}
-
-.status-row {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-
-.badge {
-    font-size: 12px;
-    padding: 5px 14px;
-    border-radius: 20px;
-    background: var(--accent-bg2);
-    border: 1px solid var(--border);
-    color: var(--text-soft);
-    font-family: 'Salda', Arial, sans-serif;
-}
-.badge-green {
-    background: rgba(0, 200, 120, 0.12);
-    border-color: rgba(0, 200, 120, 0.35);
-    color: #6EFFC5;
-}
-.badge-orange {
-    background: rgba(255, 165, 0, 0.12);
-    border-color: rgba(255, 165, 0, 0.35);
-    color: #FFD080;
-}
-
-/* CONTENT GRID */
-.show-content {
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 32px 24px 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    animation: fadeInUp 0.7s ease-out 0.15s both;
-}
-
-.show-card {
-    background: rgba(14, 11, 61, 0.45);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    backdrop-filter: blur(16px);
-}
-.show-card.full { grid-column: 1 / -1; }
-
-.show-card h2 {
-    font-family: 'Frank', Arial, sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.show-card h2::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-}
-
-.card-body {
-    font-size: 15px;
-    color: var(--text-soft);
-    line-height: 1.8;
-}
-
-/* UPDATES */
-.update-item {
-    display: flex;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.update-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-.update-date {
-    flex: 0 0 90px;
-    font-size: 12px;
-    color: var(--accent-dim);
-    padding-top: 2px;
-    font-family: 'Salda', Arial, sans-serif;
-}
-
-.update-body strong {
-    display: block;
-    font-size: 14px;
-    color: #EDE9FF;
-    margin-bottom: 4px;
-}
-.update-body p { font-size: 13px; color: var(--text-muted); }
-
-/* TEASERS */
-.teaser-item {
-    background: var(--accent-bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
-}
-.teaser-item:last-child { margin-bottom: 0; }
-
-.teaser-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-    font-family: 'Salda', Arial, sans-serif;
-}
-
-.teaser-item p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
-
-/* CHARACTERS */
-.char-list { display: flex; flex-direction: column; gap: 12px; }
-
-.char-item { display: flex; gap: 14px; align-items: flex-start; }
-
-.char-icon {
-    flex: 0 0 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-
-.char-info strong { display: block; font-size: 14px; color: #EDE9FF; }
-.char-info span { font-size: 13px; color: var(--text-muted); }
-
-/* GENRE TAGS */
-.genre-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.genre-tag {
-    font-size: 13px;
-    padding: 6px 16px;
-    border-radius: 20px;
-    background: var(--accent-bg);
-    border: 1px solid var(--border);
-    color: var(--text-soft);
-    font-family: 'Salda', Arial, sans-serif;
-}
-
-.card-note {
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-/* DISCLAIMER */
-.disclaimer-box {
-    background: rgba(255, 165, 0, 0.08);
-    border: 1px solid rgba(255, 165, 0, 0.25);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 20px;
-    font-size: 13px;
-    color: #FFD080;
-    line-height: 1.6;
-}
-
-/* RESPONSIVE */
-@media (max-width: 680px) {
-    .show-content { grid-template-columns: 1fr; }
-    .show-card.full { grid-column: 1; }
-    .hero-inner { flex-direction: column; text-align: center; }
-    .status-row { justify-content: center; }
-    .show-nav { padding: 16px 20px; }
-}
-
+        .project:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(199, 125, 255, 0.55);
+            box-shadow: 0 0 36px rgba(160, 32, 240, 0.25);
+        }
+        .project:hover .project-text h3 {
+            color: #C77DFF;
+        }
+        .project-text h3 {
+            transition: color 0.25s ease;
+        }
+        .project-arrow {
+            align-self: center;
+            font-size: 28px;
+            color: rgba(199, 125, 255, 0.5);
+            margin-left: 10px;
+            flex-shrink: 0;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+        .project:hover .project-arrow {
+            transform: translateX(6px);
+            color: #C77DFF;
+        }
+        .donate {
+            backdrop-filter: blur(18px) saturate(1.5);
+            -webkit-backdrop-filter: blur(18px) saturate(1.5);
+            background: rgba(12, 10, 46, 0.4) !important;
+        }
+        .bio {
+            backdrop-filter: blur(14px) saturate(1.3);
+            -webkit-backdrop-filter: blur(14px) saturate(1.3);
+            background: rgba(14, 11, 61, 0.3);
+            border-radius: 16px;
+            padding: 24px 28px;
+            border: 1px solid rgba(199, 125, 255, 0.1);
+            margin-bottom: 60px;
+        }
+        .donate-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <canvas id="galaxy-bg"></canvas>
-    <nav class="show-nav">
-        <a href="../index.html" class="back-link">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            Back to Star Studios
-        </a>
-        <span class="nav-studio">Star Studios</span>
-    </nav>
-    <div class="show-hero">
-        <div class="hero-inner">
-            <div class="hero-img"><img src="../hsh.png" alt="Home Sweet Home"></div>
-            <div class="hero-info">
-                <span class="show-tag">Original Series</span>
-                <h1>HOME SWEET HOME</h1>
-                <p>Three alien misfits hiding on Earth — the armpit of the universe — discover that blending in is a lot harder than it looks, especially when a secret organization is hunting them.</p>
-                <div class="status-row">
-                    <span class="badge badge-green">&#9679; In Development</span>
-                    <span class="badge">Sci-Fi · Comedy</span>
-                    <span class="badge">Original</span>
+
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="Studio Logo" class="logo">
+            <div class="social">
+                <a href="https://www.youtube.com/@StarStudiosProductionCo" class="social-button youtube" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                    </svg>
+                    YouTube
+                </a>
+                <a href="https://x.com/StarStudio_Prod" class="social-button twitter" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                    </svg>
+                    X / Twitter
+                </a>
+                <a href="https://discord.gg/pqCMpW4TQU" class="social-button discord" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                    </svg>
+                    Discord
+                </a>
+            </div>
+        </header>
+
+        <section class="bio">
+            <p>We are an indie animation studio focused on original series and fan projects, although we are small... we are doing our best to bring new shows to the table!</p>
+        </section>
+
+        <section class="projects">
+            <h2>OUR PROJECTS</h2>
+
+            <a href="KBWW/index.html" class="project">
+                <div class="project-text">
+                    <h3>KAZZ AND BIBBLE: WANNABE WIZARDS</h3>
+                    <p>Kazz and Bibble are not real wizards. They failed every magic class, dropped out of school, and live in a moldy hill house with nothing to their names but ego and desperation. After accidentally completing a real wizarding job without using magic, they start a business offering magical services they are wildly unqualified for.</p>
                 </div>
+                <div class="project-image">
+                    <img src="kazz-bibble.png" alt="Kazz and Bibble">
+                </div>
+                <span class="project-arrow">›</span>
+            </a>
+
+            <a href="ISOAS/index.html" class="project">
+                <div class="project-text">
+                    <h3>I'M SCARED OF ALOTTA STUFF</h3>
+                    <p>A supernatural comedy-horror series about a group of teens forced to face their fears when godlike beings turn anxiety, trauma, and insecurity into real monsters. It's funny, messy, and emotional. Showing that bravery isn't about being fearless, but about facing what scares you anyway.</p>
+                </div>
+                <div class="project-image">
+                    <img src="scared.png" alt="I'm Scared of Alotta Stuff">
+                </div>
+                <span class="project-arrow">›</span>
+            </a>
+
+            <a href="HSH/index.html" class="project">
+                <div class="project-text">
+                    <h3>HOME SWEET HOME</h3>
+                    <p>Socks, Velcra and Patches never belonged on their planets. The three misfits came to Earth, the armpit of the universe, to hide from their authorities but they soon realize that life on Earth isn't so easy either when the AAH organization discovers their true identities…</p>
+                </div>
+                <div class="project-image">
+                    <img src="hsh.png" alt="Home Sweet Home">
+                </div>
+                <span class="project-arrow">›</span>
+            </a>
+
+            <a href="PIBBY/index.html" class="project">
+                <div class="project-text">
+                    <h3>LEARNING WITH PIBBY: ARMAGEDDON</h3>
+                    <p>A NON-PROFIT, FANMADE story based off the canceled Learning With Pibby: Apocalypse trailer! A preschool cartoon character stranded in corrupted worlds must decide to save the universe as a hero, or risk the Darkness consuming them first.</p>
+                </div>
+                <div class="project-image">
+                    <img src="pibby.png" alt="Learning With Pibby: Armageddon">
+                </div>
+                <span class="project-arrow">›</span>
+            </a>
+        </section>
+
+        <section class="donate">
+            <h2>HELP FUND THE TEAM!!!</h2>
+            <div class="donate-buttons">
+                <a href="https://star-studios-shop.fourthwall.com" class="kickstarter-link" target="_blank">Get our MERCH!</a>
+                <a href="https://www.patreon.com/cw/StarStudiosAnimation" class="kickstarter-link" target="_blank">Support our PATREON!</a>
             </div>
-        </div>
+        </section>
     </div>
-    <div class="show-content">
-        <div class="show-card full">
-            <h2>FULL SYNOPSIS</h2>
-            <p class="card-body">Socks, Velcra and Patches never belonged on their planets. The three misfits came to Earth — the armpit of the universe — to hide from their authorities, but they soon realize that life on Earth isn't so easy either. When the AAH (Alien Apprehension & Handling) organization discovers their true identities, the trio must navigate the absurdity of human life while staying one step ahead of the agents trying to bring them in. Found family, fish-out-of-water comedy, and actual stakes.</p>
-        </div>
-        <div class="show-card">
-            <h2>UPDATES</h2>
-            <div class="update-item"><span class="update-date">Mar 2025</span><div class="update-body"><strong>World-building in progress</strong><p>Designing the alien home planets and the AAH organization's infrastructure.</p></div></div>
-            <div class="update-item"><span class="update-date">Feb 2025</span><div class="update-body"><strong>Character designs shared on Discord</strong><p>Community helped vote on the final look for Socks. Results were very chaotic.</p></div></div>
-            <div class="update-item"><span class="update-date">Dec 2024</span><div class="update-body"><strong>Concept approved</strong><p>HSH officially enters the Star Studios roster as an original series.</p></div></div>
-        </div>
-        <div class="show-card">
-            <h2>TEASERS</h2>
-            <div class="teaser-item"><div class="teaser-label">&#128760; Premise Teaser</div><p>"They crossed the galaxy looking for somewhere to belong. They ended up in Ohio."</p></div>
-            <div class="teaser-item"><div class="teaser-label">&#128373;&#65039; Antagonist Hint</div><p>The AAH doesn't just want to capture them. They want to study them. And the director has a very personal reason for hunting these three specifically.</p></div>
-            <div class="teaser-item"><div class="teaser-label">&#128172; Dialogue Snippet</div><p><em>Socks:</em> "This 'pizza' substance. It is good." <em>Patches:</em> "You said that about toothpaste." <em>Socks:</em> "Also good."</p></div>
-        </div>
-        <div class="show-card">
-            <h2>CHARACTERS</h2>
-            <div class="char-list">
-                <div class="char-item"><div class="char-icon">&#129olean;</div><div class="char-info"><strong>Socks</strong><span>Enthusiastic about everything on Earth. Dangerously literal. Named themselves after the first human object they touched.</span></div></div>
-                <div class="char-item"><div class="char-icon">&#9889;</div><div class="char-info"><strong>Velcra</strong><span>Sharp, sarcastic, and desperate to get off this planet. Secretly loves it here but will never admit it.</span></div></div>
-                <div class="char-item"><div class="char-icon">&#129olean;</div><div class="char-info"><strong>Patches</strong><span>The cautious one. Keeps the group alive. Deeply worried that they are becoming too human.</span></div></div>
-            </div>
-        </div>
-        <div class="show-card">
-            <h2>GENRE & TONE</h2>
-            <div class="genre-tags"><span class="genre-tag">Sci-Fi</span><span class="genre-tag">Comedy</span><span class="genre-tag">Found Family</span><span class="genre-tag">Action</span><span class="genre-tag">Fish-Out-Of-Water</span></div>
-            <p class="card-note">Aliens in suburbia meets secret agency thriller. Big heart, bigger disasters, and a trio who slowly realize Earth might actually be home.</p>
-        </div>
-    </div>
-    <script>// ── Galaxy Background: Perlin Noise + Starfield ───────────────────────────
-const canvas = document.getElementById('galaxy-bg');
-const ctx = canvas.getContext('2d');
 
-const p = new Uint8Array(256);
-for (let i = 0; i < 256; i++) p[i] = i;
-for (let i = 255; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [p[i], p[j]] = [p[j], p[i]];
-}
-const perm = new Uint8Array(512);
-for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
-
-function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-function lerp(a, b, t) { return a + t * (b - a); }
-function grad(hash, x, y) {
-    const h = hash & 3;
-    const u = h < 2 ? x : y, v = h < 2 ? y : x;
-    return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
-}
-function noise(x, y) {
-    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
-    x -= Math.floor(x); y -= Math.floor(y);
-    const u = fade(x), v = fade(y);
-    const a = perm[X] + Y, b = perm[X + 1] + Y;
-    return lerp(
-        lerp(grad(perm[a],     x,     y),     grad(perm[b],     x - 1, y),     u),
-        lerp(grad(perm[a + 1], x,     y - 1), grad(perm[b + 1], x - 1, y - 1), u),
-        v
-    );
-}
-function fbm(x, y, octaves = 5) {
-    let val = 0, amp = 0.5, freq = 1, max = 0;
-    for (let i = 0; i < octaves; i++) {
-        val += noise(x * freq, y * freq) * amp;
-        max += amp; amp *= 0.5; freq *= 2.1;
-    }
-    return val / max;
-}
-function noiseToColor(n) {
-    const t = (n + 1) * 0.5;
-    if (t < 0.28) { const f = t / 0.28; return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)]; }
-    else if (t < 0.52) { const f = (t - 0.28) / 0.24; return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)]; }
-    else if (t < 0.74) { const f = (t - 0.52) / 0.22; return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)]; }
-    else { const f = Math.min((t - 0.74) / 0.26, 1); return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; }
-}
-
-let stars = [];
-function initStars() {
-    stars = [];
-    const count = Math.floor((canvas.width * canvas.height) / 4500);
-    for (let i = 0; i < count; i++) {
-        stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 1.5 + 0.15,
-            alpha: Math.random() * 0.55 + 0.35,
-            speed: Math.random() * 0.015 + 0.004,
-            phase: Math.random() * Math.PI * 2
-        });
-    }
-}
-
-let noiseCanvas, noiseCtx;
-const SCALE = 4;
-
-function buildNoiseCanvas() {
-    noiseCanvas = document.createElement('canvas');
-    noiseCanvas.width  = Math.ceil(canvas.width  / SCALE);
-    noiseCanvas.height = Math.ceil(canvas.height / SCALE);
-    noiseCtx = noiseCanvas.getContext('2d');
-}
-
-function drawNoise(t) {
-    const w = noiseCanvas.width, h = noiseCanvas.height;
-    const img = noiseCtx.createImageData(w, h);
-    const xScale = 0.003, yScale = 0.003;
-    const drift = t * 0.014;
-    for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-            const n = fbm(x * xScale + drift, y * yScale + drift * 0.55);
-            const [r, g, b] = noiseToColor(n);
-            const i = (y * w + x) * 4;
-            img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255;
-        }
-    }
-    noiseCtx.putImageData(img, 0, 0);
-}
-
-function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
-    buildNoiseCanvas();
-    initStars();
-}
-
-let lastNoise = -999, noiseTime = 0;
-const NOISE_INTERVAL = 0.15;
-
-function animate(ts) {
-    noiseTime = ts * 0.001;
-    if (noiseTime - lastNoise > NOISE_INTERVAL) {
-        drawNoise(noiseTime);
-        lastNoise = noiseTime;
-    }
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height);
-    for (const s of stars) {
-        const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase));
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`;
-        ctx.fill();
-    }
-    requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', resize);
-resize();
-drawNoise(0);
-requestAnimationFrame(animate);
-</script>
+    <script>
+    const canvas = document.getElementById('galaxy-bg');
+    const ctx = canvas.getContext('2d');
+    const p = new Uint8Array(256);
+    for (let i = 0; i < 256; i++) p[i] = i;
+    for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
+    const perm = new Uint8Array(512);
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function lerp(a, b, t) { return a + t * (b - a); }
+    function grad(hash, x, y) { const h = hash & 3; const u = h < 2 ? x : y, v = h < 2 ? y : x; return ((h & 1) ? -u : u) + ((h & 2) ? -v : v); }
+    function noise(x, y) { const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y); const u = fade(x), v = fade(y); const a = perm[X] + Y, b = perm[X + 1] + Y; return lerp(lerp(grad(perm[a], x, y), grad(perm[b], x - 1, y), u), lerp(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v); }
+    function fbm(x, y, octaves = 5) { let val = 0, amp = 0.5, freq = 1, max = 0; for (let i = 0; i < octaves; i++) { val += noise(x * freq, y * freq) * amp; max += amp; amp *= 0.5; freq *= 2.1; } return val / max; }
+    function noiseToColor(n) { const t = (n + 1) * 0.5; if (t < 0.28) { const f = t / 0.28; return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)]; } else if (t < 0.52) { const f = (t - 0.28) / 0.24; return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)]; } else if (t < 0.74) { const f = (t - 0.52) / 0.22; return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)]; } else { const f = Math.min((t - 0.74) / 0.26, 1); return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; } }
+    let stars = [];
+    function initStars() { stars = []; const count = Math.floor((canvas.width * canvas.height) / 4500); for (let i = 0; i < count; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5 + 0.15, alpha: Math.random() * 0.55 + 0.35, speed: Math.random() * 0.015 + 0.004, phase: Math.random() * Math.PI * 2 }); } }
+    let noiseCanvas, noiseCtx;
+    const SCALE = 4;
+    function buildNoiseCanvas() { noiseCanvas = document.createElement('canvas'); noiseCanvas.width = Math.ceil(canvas.width / SCALE); noiseCanvas.height = Math.ceil(canvas.height / SCALE); noiseCtx = noiseCanvas.getContext('2d'); }
+    function drawNoise(t) { const w = noiseCanvas.width, h = noiseCanvas.height; const img = noiseCtx.createImageData(w, h); const xScale = 0.003, yScale = 0.003; const drift = t * 0.014; for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) { const n = fbm(x * xScale + drift, y * yScale + drift * 0.55); const [r, g, b] = noiseToColor(n); const i = (y * w + x) * 4; img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255; } } noiseCtx.putImageData(img, 0, 0); }
+    function resize() { canvas.width = window.innerWidth; canvas.height = Math.max(window.innerHeight, document.body.scrollHeight); buildNoiseCanvas(); initStars(); }
+    let lastNoise = -999, noiseTime = 0;
+    const NOISE_INTERVAL = 0.15;
+    function animate(ts) { noiseTime = ts * 0.001; if (noiseTime - lastNoise > NOISE_INTERVAL) { drawNoise(noiseTime); lastNoise = noiseTime; } ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height); for (const s of stars) { const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase)); ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`; ctx.fill(); } requestAnimationFrame(animate); }
+    window.addEventListener('resize', () => { resize(); });
+    resize(); drawNoise(0); requestAnimationFrame(animate);
+    </script>
 </body>
 </html>
