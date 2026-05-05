@@ -237,91 +237,32 @@ body {
     margin-top: 10px;
 }
 
-/* ── Careers section ── */
-.careers {
-    margin-top: 80px;
-    margin-bottom: 80px;
-    backdrop-filter: blur(14px) saturate(1.3);
-    -webkit-backdrop-filter: blur(14px) saturate(1.3);
-    background: rgba(14, 11, 61, 0.3);
-    border-radius: 24px;
-    padding: 50px 30px;
-    border: 1px solid rgba(199, 125, 255, 0.15);
+/* ── Top nav bar ── */
+.topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    padding: 14px 24px;
 }
-.careers h2 {
-    font-size: 32px;
-    margin-bottom: 12px;
-    letter-spacing: 2px;
-    font-family: 'Frank', Arial, sans-serif;
-    color: #FFFFFF;
-}
-.careers-intro {
-    font-size: 16px;
-    color: #B8B0D8;
-    margin-bottom: 36px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.careers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    text-align: left;
-}
-.career-card {
-    background: rgba(123, 44, 191, 0.12);
-    border: 1px solid rgba(199, 125, 255, 0.2);
-    border-radius: 16px;
-    padding: 22px 24px;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-.career-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(199, 125, 255, 0.5);
-    box-shadow: 0 0 28px rgba(160, 32, 240, 0.2);
-}
-.career-card-tag {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #C77DFF;
-    background: rgba(199, 125, 255, 0.12);
-    border-radius: 30px;
-    padding: 3px 12px;
-    margin-bottom: 10px;
-    font-family: 'Salda', Arial, sans-serif;
-}
-.career-card h3 {
-    font-size: 18px;
-    font-family: 'Frank', Arial, sans-serif;
-    color: #EDE9FF;
-    margin-bottom: 8px;
-}
-.career-card p {
-    font-size: 14px;
-    color: #B8B0D8;
-    line-height: 1.5;
-}
-.careers-cta {
-    margin-top: 36px;
-}
-.careers-cta a {
+.topnav-btn {
     display: inline-block;
     color: #ffffff;
-    background-color: #A020F0;
-    padding: 14px 38px;
+    background: rgba(123, 44, 191, 0.55);
+    border: 1px solid rgba(199, 125, 255, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 10px 22px;
     text-decoration: none;
     border-radius: 30px;
-    font-size: 16px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+    font-size: 15px;
     font-family: 'Salda', Arial, sans-serif;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 0 16px rgba(160, 32, 240, 0.25);
 }
-.careers-cta a:hover {
-    background-color: #7B2CBF;
-    box-shadow: 0 0 28px rgba(123, 44, 191, 0.6);
+.topnav-btn:hover {
+    background: rgba(160, 32, 240, 0.75);
+    box-shadow: 0 0 28px rgba(160, 32, 240, 0.5);
 }
 
 @media (max-width: 768px) {
