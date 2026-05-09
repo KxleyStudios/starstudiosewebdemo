@@ -1,0 +1,61 @@
+.contact-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin: 0 auto 60px auto;
+    max-width: 900px;
+}
+
+.contact-bar-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(14, 11, 61, 0.35);
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    border: 1px solid rgba(199, 125, 255, 0.15);
+    border-radius: 20px;
+    padding: 18px 26px;
+    color: #EDE9FF;
+    text-decoration: none;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    flex: 1;
+    min-width: 220px;
+}
+
+.contact-bar-btn:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(199, 125, 255, 0.55);
+    box-shadow: 0 0 36px rgba(160, 32, 240, 0.25);
+}
+
+.contact-bar-btn--partnership:hover {
+    border-color: rgba(44, 123, 191, 0.55);
+    box-shadow: 0 0 36px rgba(44, 123, 191, 0.25);
+}
+
+.contact-bar-btn--press:hover {
+    border-color: rgba(191, 150, 44, 0.55);
+    box-shadow: 0 0 36px rgba(191, 150, 44, 0.25);
+}
+
+.contact-bar-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #EDE9FF;
+    opacity: 0.85;
+}
+
+.contact-bar-text strong {
+    font-size: 15px;
+    opacity: 1;
+    margin-bottom: 2px;
+    font-family: 'Frank', Arial, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .contact-bar { flex-direction: column; }
+    .contact-bar-btn { min-width: unset; }
+}
