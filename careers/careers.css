@@ -1,0 +1,125 @@
+/* careers/careers.css — styles specific to the careers page */
+
+.careers-hero {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 0 10px;
+}
+
+.careers-hero h1 {
+    font-size: 42px;
+    font-family: 'Frank', Arial, sans-serif;
+    letter-spacing: 3px;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+.careers-hero p {
+    font-size: 17px;
+    color: #B8B0D8;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.careers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 80px;
+    text-align: left;
+}
+
+.career-card {
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    background: rgba(14, 11, 61, 0.35);
+    border: 1px solid rgba(199, 125, 255, 0.18);
+    border-radius: 18px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.career-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(199, 125, 255, 0.45);
+    box-shadow: 0 0 32px rgba(160, 32, 240, 0.2);
+}
+
+.career-card--general {
+    border-style: dashed;
+    border-color: rgba(199, 125, 255, 0.25);
+}
+
+.career-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.career-card-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #C77DFF;
+    background: rgba(199, 125, 255, 0.12);
+    border-radius: 30px;
+    padding: 3px 12px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.career-card-type {
+    font-size: 12px;
+    color: #7a7090;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.career-card h3 {
+    font-size: 20px;
+    font-family: 'Frank', Arial, sans-serif;
+    color: #EDE9FF;
+    margin: 0;
+}
+
+.career-card p {
+    font-size: 15px;
+    color: #B8B0D8;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.apply-btn {
+    display: inline-block;
+    align-self: flex-start;
+    color: #ffffff;
+    background: rgba(123, 44, 191, 0.55);
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    padding: 10px 22px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-family: 'Salda', Arial, sans-serif;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+    margin-top: 4px;
+}
+
+.apply-btn:hover {
+    background: rgba(160, 32, 240, 0.75);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+}
+
+@media (max-width: 600px) {
+    .careers-hero h1 {
+        font-size: 30px;
+    }
+
+    .careers-list {
+        grid-template-columns: 1fr;
+    }
+}
