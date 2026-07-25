@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <meta property="og:title" content="Apply - Star Studios">
+    <meta property="og:description" content="Apply to join the Star Studios team.">
+    <meta name="theme-color" content="#7B2CBF">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Apply - Star Studios</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../careers.css">
+    <link rel="stylesheet" href="apply.css">
+</head>
+<body>
+    <canvas id="galaxy-bg"></canvas>
+
+    <nav class="topnav">
+        <a href="../" class="topnav-btn">‹ All Positions</a>
+    </nav>
+
+    <div class="container apply-container">
+
+        <!-- ── Role not found ── -->
+        <section id="role-not-found" class="apply-hero" hidden>
+            <h1>Position not found</h1>
+            <p>We couldn't find that position. <a href="../">See all open positions ›</a></p>
+        </section>
+
+        <!-- ── Everything below renders once a valid role is loaded ── -->
+        <div id="apply-content" hidden>
+
+            <header class="apply-header">
+                <a href="../../"><img src="../../logo.png" alt="Studio Logo" class="logo apply-logo"></a>
+                <div class="apply-header-info">
+                    <h1 id="role-title"></h1>
+                    <div class="apply-header-pills">
+                        <span class="status-pill" id="role-type-pill"></span>
+                        <span class="status-pill">
+                            <span id="role-status-label">Volunteer<span class="vp-plus">+</span></span>
+                            <button type="button" class="info-btn" aria-label="What is Volunteer+?" id="vp-info-btn">ⓘ</button>
+                        </span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">ABOUT STAR STUDIOS</h2>
+                <p id="about-text" class="apply-text"></p>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">ROLE INFORMATION</h2>
+                <p id="role-summary" class="apply-text"></p>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">YOUR DUTIES WILL INCLUDE</h2>
+                <ul id="duties-list" class="apply-list"></ul>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">REQUIRED QUALIFICATIONS</h2>
+                <p class="apply-subtitle">Every applicant must have:</p>
+                <ul id="universal-requirements-list" class="apply-list"></ul>
+                <p class="apply-subtitle">Specific to this role:</p>
+                <ul id="requirements-list" class="apply-list"></ul>
+                <div id="software-block" hidden>
+                    <p class="apply-subtitle">Software familiarity (when applicable):</p>
+                    <ul id="software-list" class="apply-list apply-list--inline"></ul>
+                </div>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">BONUS SKILLS</h2>
+                <ul id="bonus-list" class="apply-list"></ul>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">WHAT WE OFFER</h2>
+                <div class="offer-grid" id="apply-offer-grid"></div>
+            </section>
+
+            <section class="apply-block">
+                <h2 class="careers-section-title apply-align-left">OUR VALUES</h2>
+                <div class="values-grid" id="apply-values-grid"></div>
+            </section>
+
+            <section class="apply-block inclusivity-block apply-align-left" id="apply-inclusivity"></section>
+
+            <!-- ── Application form ── -->
+            <section class="apply-block form-card">
+                <h2 class="careers-section-title apply-align-left">APPLY FOR THIS POSITION</h2>
+
+                <form id="application-form" novalidate>
+                    <input type="hidden" id="formStartedAt" name="formStartedAt">
+                    <div class="bot-trap" aria-hidden="true">
+                        <label for="website">Leave this field empty</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required autocomplete="given-name">
+                        </div>
+                        <div class="form-field">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required autocomplete="family-name">
+                        </div>
+                        <div class="form-field">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
+                        <div class="form-field">
+                            <label for="discord">Discord Username *</label>
+                            <input type="text" id="discord" name="discord" required placeholder="e.g. starkid">
+                            <span class="field-hint">Primary method of communication.</span>
+                        </div>
+                        <div class="form-field">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel">
+                            <span class="field-hint">Optional. Spaces and hyphens are accepted and formatted automatically.</span>
+                        </div>
+                        <div class="form-field">
+                            <label for="continent">Continent *</label>
+                            <select id="continent" name="continent" required>
+                                <option value="" disabled selected>Select your continent</option>
+                                <option>Africa</option>
+                                <option>Asia</option>
+                                <option>Europe</option>
+                                <option>North America</option>
+                                <option>South America</option>
+                                <option>Oceania</option>
+                                <option>Antarctica</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="project">Which project would you like to work on? *</label>
+                        <select id="project" name="project" required>
+                            <option value="" disabled selected>Select a project</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="resume">Resume *</label>
+                        <input type="file" id="resume" name="resume" required accept=".pdf,.doc,.docx,.odt,.txt,.rtf">
+                        <span class="field-hint">Accepted formats: PDF, DOC, DOCX, ODT, TXT, RTF. Maximum file size: 10 MB.</span>
+                        <span class="field-error" id="resume-error"></span>
+                    </div>
+
+                    <h3 class="form-subheading">Experience</h3>
+
+                    <div class="form-field">
+                        <label id="experienceQuestionLabel" for="hasExperience">Do you have at least 3 years of experience in this or an equivalent role? *</label>
+                        <div class="radio-row" role="radiogroup" aria-labelledby="experienceQuestionLabel">
+                            <label class="radio-pill"><input type="radio" name="hasExperience" value="Yes" required> Yes</label>
+                            <label class="radio-pill"><input type="radio" name="hasExperience" value="No"> No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label id="largeTeamLabel">Have you worked with a large production team before? *</label>
+                        <div class="radio-row" role="radiogroup" aria-labelledby="largeTeamLabel">
+                            <label class="radio-pill"><input type="radio" name="largeTeam" value="Yes" required> Yes</label>
+                            <label class="radio-pill"><input type="radio" name="largeTeam" value="No"> No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="previousProductions">What productions, studios, or teams have you worked with previously?</label>
+                        <textarea id="previousProductions" name="previousProductions" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-field">
+                        <label id="managedMultipleLabel">Have you managed multiple episodes or projects simultaneously? *</label>
+                        <div class="radio-row" role="radiogroup" aria-labelledby="managedMultipleLabel">
+                            <label class="radio-pill"><input type="radio" name="managedMultiple" value="Yes" required> Yes</label>
+                            <label class="radio-pill"><input type="radio" name="managedMultiple" value="No"> No</label>
+                        </div>
+                    </div>
+
+                    <h3 class="form-subheading">Equipment</h3>
+
+                    <div class="form-field">
+                        <label for="device">What device(s) do you primarily use? *</label>
+                        <input type="text" id="device" name="device" required placeholder="e.g. Windows PC, iPad">
+                    </div>
+
+                    <h3 class="form-subheading">Portfolio</h3>
+
+                    <div class="form-field">
+                        <label for="portfolio">Portfolio Website or Work Samples *</label>
+                        <input type="url" id="portfolio" name="portfolio" required>
+                        <span class="field-hint">Please provide a publicly accessible link. Google Drive links are not accepted.</span>
+                        <span class="field-error" id="portfolio-error"></span>
+                    </div>
+
+                    <h3 class="form-subheading">Payment Preference</h3>
+
+                    <div class="form-field">
+                        <div class="form-label-row">
+                            <label for="paymentMethod">Preferred payment method *</label>
+                            <button type="button" class="payment-info-link" id="payment-vp-info">What is Volunteer<span class="vp-plus">+</span>?</button>
+                        </div>
+                        <select id="paymentMethod" name="paymentMethod" required>
+                            <option value="" disabled selected>Select a method</option>
+                            <option>PayPal</option>
+                            <option>Venmo</option>
+                            <option>Cash App</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="hearAboutUs">How did you hear about us?</label>
+                        <input type="text" id="hearAboutUs" name="hearAboutUs">
+                    </div>
+
+                    <h3 class="form-subheading">Human Verification</h3>
+
+                    <div class="form-field captcha-field">
+                        <label for="captchaAnswer" id="captchaLabel">Verification *</label>
+                        <div class="captcha-row">
+                            <span id="captchaQuestion" class="captcha-question"></span>
+                            <input type="text" id="captchaAnswer" name="captchaAnswer" required inputmode="numeric" autocomplete="off">
+                            <button type="button" id="captchaRefresh" class="captcha-refresh" aria-label="New question">⟳</button>
+                        </div>
+                        <span class="field-hint">Answer the changing question to verify that you are human.</span>
+                        <span class="field-error" id="captcha-error"></span>
+                    </div>
+
+                    <button type="submit" class="apply-submit-btn">Apply</button>
+                    <p class="form-status" id="form-status" role="status"></p>
+                </form>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ── Pre-submit confirmation modal ── -->
+    <div class="vp-modal-overlay" id="confirm-modal" aria-hidden="true">
+        <div class="vp-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+            <button type="button" class="vp-modal-close" id="confirm-modal-close" aria-label="Close">&times;</button>
+            <h2 id="confirm-modal-title">Before You Apply</h2>
+            <div class="vp-modal-body">
+                <p>By submitting this application, you acknowledge that:</p>
+                <ul>
+                    <li>This position is currently <strong>Volunteer<span class="vp-plus">+</span></strong>.</li>
+                    <li>Volunteer<span class="vp-plus">+</span> positions do not guarantee upfront payment.</li>
+                    <li>Work is expected to be completed by agreed-upon deadlines.</li>
+                    <li>You understand our Volunteer<span class="vp-plus">+</span> payment model.</li>
+                    <li>You agree to communicate professionally with the team.</li>
+                </ul>
+                <p><button type="button" class="link-btn" id="confirm-what-is-vp">What is Volunteer<span class="vp-plus">+</span>? ›</button></p>
+            </div>
+            <div class="confirm-modal-actions">
+                <button type="button" class="apply-btn apply-btn--ghost" id="confirm-cancel">Cancel</button>
+                <button type="button" class="apply-submit-btn" id="confirm-submit">I Understand &amp; Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="submission-overlay" id="submission-overlay" aria-hidden="true" tabindex="-1">
+        <div class="submission-dialog" role="alertdialog" aria-modal="true" aria-labelledby="submission-title">
+            <h2 id="submission-title">Please wait</h2>
+            <p>Submitting your application...</p>
+            <img src="../../favicon.png" alt="" class="submission-logo" aria-hidden="true">
+        </div>
+    </div>
+
+    <script src="../js/careers-data.js"></script>
+    <script src="../js/careers-common.js"></script>
+    <script src="apply.js"></script>
+
+    <script>
+    const canvas = document.getElementById('galaxy-bg');
+    const ctx = canvas.getContext('2d');
+    const p = new Uint8Array(256);
+    for (let i = 0; i < 256; i++) p[i] = i;
+    for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
+    const perm = new Uint8Array(512);
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function lerp(a, b, t) { return a + t * (b - a); }
+    function grad(hash, x, y) { const h = hash & 3; const u = h < 2 ? x : y, v = h < 2 ? y : x; return ((h & 1) ? -u : u) + ((h & 2) ? -v : v); }
+    function noise(x, y) { const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y); const u = fade(x), v = fade(y); const a = perm[X] + Y, b = perm[X + 1] + Y; return lerp(lerp(grad(perm[a], x, y), grad(perm[b], x - 1, y), u), lerp(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v); }
+    function fbm(x, y, octaves = 5) { let val = 0, amp = 0.5, freq = 1, max = 0; for (let i = 0; i < octaves; i++) { val += noise(x * freq, y * freq) * amp; max += amp; amp *= 0.5; freq *= 2.1; } return val / max; }
+    function noiseToColor(n) { const t = (n + 1) * 0.5; if (t < 0.28) { const f = t / 0.28; return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)]; } else if (t < 0.52) { const f = (t - 0.28) / 0.24; return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)]; } else if (t < 0.74) { const f = (t - 0.52) / 0.22; return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)]; } else { const f = Math.min((t - 0.74) / 0.26, 1); return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; } }
+    let stars = [];
+    function initStars() { stars = []; const count = Math.floor((canvas.width * canvas.height) / 4500); for (let i = 0; i < count; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5 + 0.15, alpha: Math.random() * 0.55 + 0.35, speed: Math.random() * 0.015 + 0.004, phase: Math.random() * Math.PI * 2 }); } }
+    let noiseCanvas, noiseCtx;
+    const SCALE = 4;
+    function buildNoiseCanvas() { noiseCanvas = document.createElement('canvas'); noiseCanvas.width = Math.ceil(canvas.width / SCALE); noiseCanvas.height = Math.ceil(canvas.height / SCALE); noiseCtx = noiseCanvas.getContext('2d'); }
+    function drawNoise(t) { const w = noiseCanvas.width, h = noiseCanvas.height; const img = noiseCtx.createImageData(w, h); const xScale = 0.003, yScale = 0.003; const drift = t * 0.014; for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) { const n = fbm(x * xScale + drift, y * yScale + drift * 0.55); const [r, g, b] = noiseToColor(n); const i = (y * w + x) * 4; img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255; } } noiseCtx.putImageData(img, 0, 0); }
+    function resize() { canvas.width = window.innerWidth; canvas.height = Math.max(window.innerHeight, document.body.scrollHeight); buildNoiseCanvas(); initStars(); }
+    let lastNoise = -999, noiseTime = 0;
+    const NOISE_INTERVAL = 0.15;
+    function animate(ts) { noiseTime = ts * 0.001; if (noiseTime - lastNoise > NOISE_INTERVAL) { drawNoise(noiseTime); lastNoise = noiseTime; } ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height); for (const s of stars) { const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase)); ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`; ctx.fill(); } requestAnimationFrame(animate); }
+    window.addEventListener('resize', () => { resize(); });
+    resize(); drawNoise(0); requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+/* apply/apply.css - styles specific to the application page */
+
+/* Every heading set in Frankfurter renders in caps, no matter
+   how the text is typed - including the job title pulled in
+   from careers-data.js. */
+.apply-header-info h1,
+.apply-hero h1,
+.form-subheading {
+    text-transform: uppercase;
+}
+
+.apply-container {
+    max-width: 780px;
+}
+
+.apply-align-left {
+    text-align: left;
+}
+
+.apply-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.apply-logo {
+    max-width: 140px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.apply-header-info h1 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 32px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.apply-header-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.apply-hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.apply-hero h1 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 30px;
+    margin-bottom: 14px;
+}
+
+.apply-hero a {
+    color: #C77DFF;
+}
+
+.apply-block {
+    margin-bottom: 56px;
+}
+
+.apply-text {
+    color: #DCD6F5;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.apply-subtitle {
+    color: #B8B0D8;
+    font-size: 14px;
+    margin: 18px 0 10px 0;
+    letter-spacing: 0.5px;
+}
+
+.apply-list {
+    color: #DCD6F5;
+    font-size: 15px;
+    line-height: 1.75;
+    padding-left: 22px;
+}
+
+.apply-list li {
+    margin-bottom: 8px;
+}
+
+.apply-list--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.apply-list--inline li {
+    background: rgba(199, 125, 255, 0.12);
+    border: 1px solid rgba(199, 125, 255, 0.25);
+    border-radius: 30px;
+    padding: 6px 16px;
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+/* ── Form card ── */
+.form-card {
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    background: rgba(14, 11, 61, 0.4);
+    border: 1px solid rgba(199, 125, 255, 0.18);
+    border-radius: 22px;
+    padding: 36px;
+    text-align: left;
+}
+
+.form-subheading {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 18px;
+    color: #EDE9FF;
+    letter-spacing: 0.5px;
+    margin: 34px 0 16px 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(199, 125, 255, 0.12);
+}
+
+.form-card > .form-subheading:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.form-field label {
+    font-size: 14px;
+    color: #EDE9FF;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="tel"],
+.form-field input[type="url"],
+.form-field input[type="file"],
+.form-field select,
+.form-field textarea {
+    background: rgba(6, 5, 24, 0.4);
+    border: 1px solid rgba(199, 125, 255, 0.25);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-family: 'Salda', Arial, sans-serif;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: rgba(199, 125, 255, 0.7);
+    box-shadow: 0 0 0 3px rgba(160, 32, 240, 0.18);
+}
+
+.form-field input:invalid:not(:placeholder-shown),
+.form-field.field-invalid input,
+.form-field.field-invalid select,
+.form-field.field-invalid textarea {
+    border-color: rgba(255, 99, 99, 0.7);
+}
+
+.field-hint {
+    font-size: 12px;
+    color: #7a7090;
+}
+
+.field-error {
+    font-size: 12px;
+    color: #FF8A8A;
+    min-height: 14px;
+}
+
+.radio-row {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(199, 125, 255, 0.08);
+    border: 1px solid rgba(199, 125, 255, 0.25);
+    border-radius: 30px;
+    padding: 9px 18px;
+    font-size: 14px;
+    color: #EDE9FF;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.radio-pill:has(input:checked) {
+    background: rgba(160, 32, 240, 0.35);
+    border-color: rgba(199, 125, 255, 0.7);
+}
+
+.radio-pill input {
+    accent-color: #A020F0;
+}
+
+.captcha-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.captcha-question {
+    background: rgba(199, 125, 255, 0.12);
+    border: 1px solid rgba(199, 125, 255, 0.25);
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-size: 15px;
+    color: #EDE9FF;
+    white-space: nowrap;
+}
+
+.captcha-row input {
+    max-width: 120px;
+}
+
+.captcha-refresh {
+    background: rgba(199, 125, 255, 0.15);
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    color: #EDE9FF;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.captcha-refresh:hover {
+    background: rgba(199, 125, 255, 0.3);
+}
+
+.apply-submit-btn {
+    display: block;
+    width: 100%;
+    color: #ffffff;
+    background-color: #A020F0;
+    border: none;
+    padding: 16px 40px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-family: 'Salda', Arial, sans-serif;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+}
+
+.apply-submit-btn:hover {
+    background-color: #7B2CBF;
+    box-shadow: 0 0 28px rgba(123, 44, 191, 0.6);
+}
+
+.apply-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-status {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+.form-status.is-error { color: #FF8A8A; }
+.form-status.is-success { color: #9DFFC2; }
+.form-status.is-pending { color: #C77DFF; }
+
+/* Confirmation modal action buttons */
+.confirm-modal-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.confirm-modal-actions .apply-submit-btn {
+    margin-top: 0;
+    flex: 1;
+}
+
+.apply-btn--ghost {
+    background: transparent;
+    border: 1px solid rgba(199, 125, 255, 0.35);
+    color: #EDE9FF;
+}
+
+.apply-btn--ghost:hover {
+    background: rgba(199, 125, 255, 0.12);
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #C77DFF;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+@media (max-width: 600px) {
+    .apply-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-card {
+        padding: 24px 20px;
+    }
+}

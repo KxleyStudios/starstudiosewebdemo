@@ -1,0 +1,374 @@
+/* careers/careers.css - styles specific to the careers page */
+
+/* Every heading set in Frankfurter renders in caps, no matter
+   how the text is typed in the markup - including job titles
+   pulled from careers-data.js. */
+.careers-hero h1,
+.career-card h3,
+.vp-modal h2,
+.offer-card h3,
+.value-card h3,
+.careers-section-title {
+    text-transform: uppercase;
+}
+
+.careers-hero {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 0 10px;
+}
+
+.careers-hero h1 {
+    font-size: 42px;
+    font-family: 'Frank', Arial, sans-serif;
+    letter-spacing: 3px;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+.careers-hero p {
+    font-size: 17px;
+    color: #B8B0D8;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.careers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 80px;
+    text-align: left;
+}
+
+.career-card {
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    background: rgba(14, 11, 61, 0.35);
+    border: 1px solid rgba(199, 125, 255, 0.18);
+    border-radius: 18px;
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.career-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(199, 125, 255, 0.45);
+    box-shadow: 0 0 32px rgba(160, 32, 240, 0.2);
+}
+
+.career-card--general {
+    border-style: dashed;
+    border-color: rgba(199, 125, 255, 0.25);
+}
+
+.career-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.career-card-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #C77DFF;
+    background: rgba(199, 125, 255, 0.12);
+    border-radius: 30px;
+    padding: 3px 12px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.career-card-type {
+    font-size: 12px;
+    color: #7a7090;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+.career-card h3 {
+    font-size: 20px;
+    font-family: 'Frank', Arial, sans-serif;
+    color: #EDE9FF;
+    margin: 0;
+}
+
+.career-card p {
+    font-size: 15px;
+    color: #B8B0D8;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.apply-btn {
+    display: inline-block;
+    align-self: flex-start;
+    color: #ffffff;
+    background: rgba(123, 44, 191, 0.55);
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    padding: 10px 22px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-family: 'Salda', Arial, sans-serif;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+    margin-top: 4px;
+}
+
+.apply-btn:hover {
+    background: rgba(160, 32, 240, 0.75);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+}
+
+.career-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+}
+
+/* Info button (used for "Volunteer+" tooltip triggers) */
+.info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(199, 125, 255, 0.18);
+    border: 1px solid rgba(199, 125, 255, 0.4);
+    color: #C77DFF;
+    font-size: 13px;
+    font-family: 'Salda', Arial, sans-serif;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.info-btn:hover {
+    background: rgba(199, 125, 255, 0.35);
+    transform: scale(1.08);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #EDE9FF;
+    background: rgba(123, 44, 191, 0.28);
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    border-radius: 30px;
+    padding: 5px 14px;
+    font-family: 'Salda', Arial, sans-serif;
+}
+
+/* Frankfurter does not include a usable plus glyph. */
+.vp-plus {
+    font-family: 'Salda', Arial, sans-serif;
+    font-weight: 400;
+    text-transform: none;
+}
+
+/* Volunteer+ info modal (shared across careers pages) */
+.vp-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(6, 5, 24, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.vp-modal-overlay.vp-modal-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.vp-modal {
+    position: relative;
+    max-width: 560px;
+    width: 100%;
+    max-height: 84vh;
+    overflow-y: auto;
+    background: #15124A;
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    border-radius: 20px;
+    padding: 36px 34px;
+    box-shadow: 0 0 60px rgba(160, 32, 240, 0.35);
+    text-align: left;
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.25s ease;
+}
+
+.vp-modal-overlay.vp-modal-open .vp-modal {
+    transform: translateY(0) scale(1);
+}
+
+.vp-modal h2 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 26px;
+    color: #FFFFFF;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+}
+
+/* Salda includes the plus glyph and keeps the Volunteer+ title readable. */
+#vp-modal-title {
+    font-family: 'Salda', Arial, sans-serif;
+    font-size: 34px;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+}
+
+.vp-modal-body p {
+    font-size: 15px;
+    color: #DCD6F5;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.vp-modal-body ul {
+    margin: 0 0 14px 20px;
+    color: #DCD6F5;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.vp-modal-body li {
+    margin-bottom: 6px;
+}
+
+.vp-modal-body ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.vp-modal-body li {
+    position: relative;
+    padding-left: 18px;
+}
+
+.vp-modal-body li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #C77DFF;
+}
+
+.vp-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: rgba(199, 125, 255, 0.15);
+    border: 1px solid rgba(199, 125, 255, 0.3);
+    color: #EDE9FF;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.vp-modal-close:hover {
+    background: rgba(199, 125, 255, 0.35);
+}
+
+/* ── Offer cards / Values grid (careers listing page) ── */
+.offer-grid,
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 80px;
+}
+
+.offer-card,
+.value-card {
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    background: rgba(14, 11, 61, 0.35);
+    border: 1px solid rgba(199, 125, 255, 0.15);
+    border-radius: 16px;
+    padding: 22px 22px;
+    text-align: left;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.offer-card:hover,
+.value-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(199, 125, 255, 0.4);
+}
+
+.offer-card h3,
+.value-card h3 {
+    font-family: 'Frank', Arial, sans-serif;
+    font-size: 18px;
+    color: #EDE9FF;
+    margin-bottom: 8px;
+}
+
+.offer-card p,
+.value-card p {
+    font-size: 14px;
+    color: #B8B0D8;
+    line-height: 1.6;
+}
+
+.careers-section-title {
+    font-size: 26px;
+    font-family: 'Frank', Arial, sans-serif;
+    letter-spacing: 1.5px;
+    color: #FFFFFF;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.inclusivity-block {
+    max-width: 680px;
+    margin: 0 auto 80px auto;
+    text-align: center;
+    background: rgba(14, 11, 61, 0.3);
+    border: 1px solid rgba(199, 125, 255, 0.12);
+    border-radius: 18px;
+    padding: 30px 32px;
+    color: #DCD6F5;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.about-block {
+    max-width: 700px;
+    margin: 0 auto 70px auto;
+    text-align: center;
+    color: #EDE9FF;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+    .careers-hero h1 {
+        font-size: 30px;
+    }
+
+    .careers-list {
+        grid-template-columns: 1fr;
+    }
+}
