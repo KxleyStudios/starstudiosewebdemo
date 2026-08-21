@@ -24,17 +24,29 @@
 
 const STUDIO_EMAIL = "contact@starstudiosproductionco.com"; // where full applications go
 const RESUME_FOLDER_NAME = "Star Studios - Applicant Resumes";
-const SHEET_NAME = "Applications";
+const SHEET_NAME = "All";
+const LEGACY_SHEET_NAME = "Applications";
+const STATUS_SHEET_NAMES = {
+  Accepted: "Accepted",
+  Waitlist: "Waitlisted",
+  Declined: "Declined"
+};
 const MAX_RESUME_FILE_SIZE = 10 * 1024 * 1024;
-const STATUS_OPTIONS = ["New", "Reviewing", "Interview", "Accepted", "Waitlist", "Declined"];
-const EMAIL_NOTIFICATION_STATUSES = ["Interview", "Accepted", "Waitlist", "Declined"];
+const STATUS_OPTIONS = ["New", "Reviewing", "Portfolio Follow-Up", "More Information Needed", "Interview", "Accepted", "Waitlist", "Declined"];
+const EMAIL_NOTIFICATION_STATUSES = ["Portfolio Follow-Up", "More Information Needed", "Interview", "Accepted", "Waitlist", "Declined"];
 const MIN_SUBMISSION_TIME_MS = 3000;
 const SUBMISSION_COOLDOWN_SECONDS = 60;
+const ROLE_REAPPLICATION_COOLDOWN_HOURS = 24;
 const DECISION_REASONS = [
-  "Role experience did not match this opening",
-  "Portfolio was not the right fit for this project",
-  "Position has been filled",
-  "Keeping your application for future opportunities"
+  "Portfolio link needs a password or access details",
+  "Portfolio link was temporarily unavailable",
+  "An updated portfolio or another work sample would be helpful",
+  "We would appreciate more examples of experience related to this role",
+  "We are moving forward with applicants whose current experience is a closer match",
+  "We are moving forward with portfolios that are a closer match for this project",
+  "This opening has been filled",
+  "This role is temporarily paused while we review production needs",
+  "We would be happy to keep this application in mind for a future opening"
 ];
 
 const COLUMNS = [
@@ -59,7 +71,8 @@ const COLUMNS = [
   "Application Status",
   "Decision Reason",
   "Decision Email Sent",
-  "Reviewer Notes"
+  "Reviewer Notes",
+  "Portfolio Access Details"
 ];
 
 /** Safe setup for new or existing sheets. It never clears applicant rows. */
@@ -91,6 +104,7 @@ function upgradeApplicationSheet() {
   configureDecisionColumns_(sheet);
   configureStatusFormatting_(sheet);
   applyBandedRows_(sheet);
+  ensureStatusSheets_(sheet);
   ensureApplicationAutomation_();
 }
 
@@ -134,6 +148,15 @@ function validateSubmission_(data) {
   const cache = CacheService.getScriptCache();
   const key = `application:${Utilities.base64EncodeWebSafe(email)}`;
   if (cache.get(key)) throw new Error("Please wait one minute before submitting another application.");
+
+  const roleKey = getRoleCooldownKey_(email, data);
+  const previousSubmission = Number(PropertiesService.getScriptProperties().getProperty(roleKey) || 0);
+  const cooldownMs = ROLE_REAPPLICATION_COOLDOWN_HOURS * 60 * 60 * 1000;
+  const remainingMs = cooldownMs - (Date.now() - previousSubmission);
+  if (previousSubmission && remainingMs > 0) {
+    const remainingHours = Math.max(1, Math.ceil(remainingMs / (60 * 60 * 1000)));
+    throw new Error(`You have already applied for this role. Please try again in about ${remainingHours} hour${remainingHours === 1 ? "" : "s"}.`);
+  }
 }
 
 function isValidEmail_(email) {
@@ -145,13 +168,51 @@ function markSubmission_(data) {
   if (!email) return;
   const key = `application:${Utilities.base64EncodeWebSafe(email)}`;
   CacheService.getScriptCache().put(key, "1", SUBMISSION_COOLDOWN_SECONDS);
+  PropertiesService.getScriptProperties().setProperty(getRoleCooldownKey_(email, data), String(Date.now()));
+}
+
+function getRoleCooldownKey_(email, data) {
+  const role = String(data.roleSlug || data.position || "unknown-role").trim().toLowerCase();
+  return `role-application:${Utilities.base64EncodeWebSafe(`${email}|${role}`)}`;
 }
 
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-  return sheet;
+  if (sheet) return sheet;
+
+  const legacySheet = ss.getSheetByName(LEGACY_SHEET_NAME);
+  if (legacySheet) {
+    legacySheet.setName(SHEET_NAME);
+    return legacySheet;
+  }
+  return ss.insertSheet(SHEET_NAME);
+}
+
+/** Creates read-only live views for the main application decisions. */
+function ensureStatusSheets_(allSheet) {
+  const ss = allSheet.getParent();
+  const headers = allSheet.getRange(1, 1, 1, COLUMNS.length).getValues();
+  const statusColumn = columnLetter_(COLUMNS.indexOf("Application Status") + 1);
+  const lastColumn = columnLetter_(COLUMNS.length);
+
+  Object.entries(STATUS_SHEET_NAMES).forEach(([status, sheetName]) => {
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) sheet = ss.insertSheet(sheetName);
+
+    const rowsToClear = Math.max(sheet.getMaxRows() - 1, 1);
+    sheet.getRange(1, 1, 1, COLUMNS.length).clearContent();
+    sheet.getRange(2, 1, rowsToClear, COLUMNS.length).clearContent();
+    sheet.getRange(1, 1, 1, COLUMNS.length).setValues(headers);
+    sheet.getRange(1, 1, 1, COLUMNS.length)
+      .setFontWeight("bold")
+      .setBackground("#7B2CBF")
+      .setFontColor("#FFFFFF");
+    sheet.getRange("A2").setFormula(`=IFERROR(FILTER(${SHEET_NAME}!A2:${lastColumn},${SHEET_NAME}!${statusColumn}2:${statusColumn}="${status}"),"")`);
+    sheet.setFrozenRows(1);
+    sheet.setColumnWidths(1, COLUMNS.length, 180);
+    sheet.setTabColor(status === "Accepted" ? "#93C47D" : status === "Waitlist" ? "#6FA8DC" : "#E06666");
+  });
 }
 
 function appendRow_(data, resumeUrl) {
@@ -178,7 +239,8 @@ function appendRow_(data, resumeUrl) {
     "New",
     "",
     "",
-    ""
+    "",
+    data.portfolioAccess || ""
   ]);
   sheet.autoResizeColumns(1, COLUMNS.length);
   applyBandedRows_(sheet);
@@ -228,7 +290,9 @@ function configureStatusFormatting_(sheet) {
     Accepted: "#D9EAD3",
     Declined: "#F4CCCC",
     Waitlist: "#CFE2F3",
-    Interview: "#FFF2CC"
+    Interview: "#FFF2CC",
+    "Portfolio Follow-Up": "#E6E0F8",
+    "More Information Needed": "#FCE8B2"
   };
   const statusRules = Object.entries(colors).map(([status, color]) =>
     SpreadsheetApp.newConditionalFormatRule()
@@ -291,7 +355,7 @@ function sendDecisionEmailForActiveRow() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const ui = SpreadsheetApp.getUi();
   if (sheet.getName() !== SHEET_NAME || sheet.getActiveRange().getRow() === 1) {
-    ui.alert("Select an applicant row in the Applications sheet first.");
+    ui.alert("Select an applicant row in the All sheet first.");
     return;
   }
 
@@ -337,17 +401,25 @@ function sendDecisionEmailForRow_(sheet, row, showAlert) {
 
 function decisionMessage_(status, role, reason) {
   if (status === "Accepted") {
-    return `We are pleased to let you know that we would like to move forward with you for the ${role} role. Our team will be in touch with next steps shortly.`;
+    return `We are happy to let you know that we would like to move forward with you for the ${role} role. Our team will be in touch with next steps shortly.`;
   }
   if (status === "Waitlist") {
-    return `Thank you for your application for the ${role} role. We are keeping your application on our waitlist and may reach out if an appropriate opportunity becomes available.`;
+    return `Thank you for applying for the ${role} role. We would be glad to keep your application on our waitlist and may reach out when a suitable opportunity becomes available.`;
   }
   if (status === "Interview") {
-    return `Thank you for your application for the ${role} role. We would like to invite you to a group chat interview. Our team will contact you through Discord with the details.`;
+    return `Thank you for applying for the ${role} role. We would love to invite you to a group chat interview. Our team will contact you through Discord with the details.`;
+  }
+  if (status === "Portfolio Follow-Up") {
+    const request = reason || "Portfolio link needs a password or access details";
+    return `Thank you for applying for the ${role} role. We would love to take a closer look at your portfolio, but ${request.toLowerCase()}. Please reply to this email with a password, access instructions, or an updated link when you can.`;
+  }
+  if (status === "More Information Needed") {
+    const request = reason || "we would appreciate a little more information";
+    return `Thank you for applying for the ${role} role. Before we make a decision, ${request.toLowerCase()}. Please reply to this email when you have a moment.`;
   }
 
   const reasonLine = reason ? ` ${reason}.` : "";
-  return `Thank you for taking the time to apply for the ${role} role. After careful review, we have decided to move forward with other applicants for this opening.${reasonLine}`;
+  return `Thank you for taking the time to apply for the ${role} role. We truly appreciate the work you shared with us. At this stage, we are moving forward with applicants whose current experience and work are the closest fit for this opening.${reasonLine} We hope you will feel welcome to apply again when a future opportunity feels right.`;
 }
 
 /** Saves the base64 resume to Drive and returns a shareable link. */
@@ -404,6 +476,7 @@ function sendStudioEmail_(data, resumeUrl) {
     `Primary device(s): ${data.device}`,
     ``,
     `Portfolio: ${data.portfolio}`,
+    `Portfolio access details: ${data.portfolioAccess || "(not provided)"}`,
     `Preferred payment method: ${data.paymentMethod}`,
     `Resume: ${resumeUrl || "(not provided)"}`,
     `How they heard about us: ${data.hearAboutUs}`,

@@ -128,6 +128,7 @@ function newCaptcha() {
   document.getElementById("captchaAnswer").value = "";
 }
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("submission-close")?.addEventListener("click", closeSubmittingModal);
   const refreshBtn = document.getElementById("captchaRefresh");
   if (refreshBtn) refreshBtn.addEventListener("click", newCaptcha);
 });
@@ -235,12 +236,24 @@ function closeConfirmModal() {
 
 function openSubmittingModal() {
   const overlay = document.getElementById("submission-overlay");
+  document.getElementById("submission-title").textContent = "Please wait";
+  document.getElementById("submission-message").textContent = "Submitting your application...";
+  document.getElementById("submission-close").hidden = true;
   document.querySelector(".topnav").inert = true;
   document.querySelector(".apply-container").inert = true;
   overlay.classList.add("submission-overlay--open");
   overlay.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
   overlay.focus();
+}
+
+function showSubmittedModal() {
+  document.getElementById("submission-title").textContent = "Application submitted";
+  document.getElementById("submission-message").textContent = "Thank you. Check your email for confirmation.";
+  document.querySelector(".submission-logo").classList.remove("submission-logo--spinning");
+  const closeButton = document.getElementById("submission-close");
+  closeButton.hidden = false;
+  closeButton.focus();
 }
 
 function closeSubmittingModal() {
@@ -263,6 +276,7 @@ async function submitApplication(form) {
   statusEl.textContent = "Submitting your application…";
   setSubmissionLogo(document.getElementById("project").value);
   openSubmittingModal();
+  let submissionSucceeded = false;
 
   try {
     const data = new FormData(form);
@@ -285,6 +299,7 @@ async function submitApplication(form) {
       managedMultiple: data.get("managedMultiple"),
       device: data.get("device"),
       portfolio: data.get("portfolio"),
+      portfolioAccess: data.get("portfolioAccess") || "",
       paymentMethod: data.get("paymentMethod"),
       hearAboutUs: data.get("hearAboutUs") || "",
       website: data.get("website") || "",
@@ -312,6 +327,8 @@ async function submitApplication(form) {
     statusEl.textContent = "Application received. Thank you! Check your email for confirmation.";
     form.reset();
     newCaptcha();
+    submissionSucceeded = true;
+    showSubmittedModal();
   } catch (err) {
     submitBtn.disabled = false;
     statusEl.className = "form-status is-error";
@@ -325,11 +342,13 @@ async function submitApplication(form) {
       statusEl.textContent = "Please wait one minute before submitting another application.";
     } else if (err.message.includes("Please enter a valid email address.")) {
       statusEl.textContent = "Please enter a valid email address.";
+    } else if (err.message.includes("already applied for this role")) {
+      statusEl.textContent = err.message.replace(/^Error:\s*/, "");
     } else {
       statusEl.textContent = "Something went wrong sending your application. Please try again or email us directly.";
     }
   } finally {
-    closeSubmittingModal();
+    if (!submissionSucceeded) closeSubmittingModal();
   }
 }
 

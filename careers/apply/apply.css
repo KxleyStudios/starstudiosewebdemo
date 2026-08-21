@@ -436,6 +436,24 @@
     font-size: 15px;
 }
 
+
+.submission-confirm-btn {
+    margin-top: 22px;
+    padding: 10px 26px;
+    color: #FFFFFF;
+    background: #7B2CBF;
+    border: 1px solid rgba(229, 213, 255, 0.45);
+    border-radius: 999px;
+    cursor: pointer;
+    font: inherit;
+}
+
+.submission-confirm-btn:hover,
+.submission-confirm-btn:focus-visible {
+    background: #9D4EDD;
+    outline: none;
+}
+
 @keyframes submission-logo-spin {
     to { transform: rotate(360deg); }
 }
