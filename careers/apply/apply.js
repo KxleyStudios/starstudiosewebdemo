@@ -303,6 +303,7 @@ async function submitApplication(form) {
       paymentMethod: data.get("paymentMethod"),
       hearAboutUs: data.get("hearAboutUs") || "",
       website: data.get("website") || "",
+      turnstileToken: data.get("cf-turnstile-response") || "",
       formStartedAt: data.get("formStartedAt"),
       resumeFileName: resumeFile ? resumeFile.name : "",
       resumeMimeType: resumeFile ? resumeFile.type : "",

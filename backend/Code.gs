@@ -37,6 +37,7 @@ const EMAIL_NOTIFICATION_STATUSES = ["Portfolio Follow-Up", "More Information Ne
 const MIN_SUBMISSION_TIME_MS = 3000;
 const SUBMISSION_COOLDOWN_SECONDS = 60;
 const ROLE_REAPPLICATION_COOLDOWN_HOURS = 24;
+const TURNSTILE_SECRET_PROPERTY = "TURNSTILE_SECRET";
 const DECISION_REASONS = [
   "Portfolio link needs a password or access details",
   "Portfolio link was temporarily unavailable",
@@ -145,6 +146,7 @@ function validateSubmission_(data) {
 
   const email = String(data.email || "").trim().toLowerCase();
   if (!isValidEmail_(email)) throw new Error("Please enter a valid email address.");
+  validateTurnstile_(data.turnstileToken);
   const cache = CacheService.getScriptCache();
   const key = `application:${Utilities.base64EncodeWebSafe(email)}`;
   if (cache.get(key)) throw new Error("Please wait one minute before submitting another application.");
@@ -161,6 +163,22 @@ function validateSubmission_(data) {
 
 function isValidEmail_(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/** Validates Cloudflare Turnstile when its secret is stored in Script Properties. */
+function validateTurnstile_(token) {
+  const secret = PropertiesService.getScriptProperties().getProperty(TURNSTILE_SECRET_PROPERTY);
+  if (!secret) return;
+  if (!token) throw new Error("Please complete the human verification and try again.");
+
+  const response = UrlFetchApp.fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify({ secret: secret, response: token }),
+    muteHttpExceptions: true
+  });
+  const result = JSON.parse(response.getContentText() || "{}");
+  if (!result.success) throw new Error("Human verification could not be confirmed. Please try again.");
 }
 
 function markSubmission_(data) {
