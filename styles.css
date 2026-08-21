@@ -31,14 +31,14 @@ body {
     line-height: 1.6;
 }
 
-#galaxy-bg {
+#site-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: -8%;
     z-index: 0;
-    display: block;
+    pointer-events: none;
+    background: url('assets/backgrounds/star-studios-background.png') center center / cover no-repeat;
+    filter: blur(12px) brightness(1.16) saturate(1.08);
+    transform: scale(1.04);
 }
 
 @keyframes fadeInDown {
@@ -287,4 +287,190 @@ body {
     .project-image {
         flex: 0 0 auto;
     }
+}
+
+
+.directors {
+    margin: 0 auto 64px;
+}
+
+.directors h2 {
+    color: #ffffff;
+    font-size: clamp(1.6rem, 4vw, 2.35rem);
+    letter-spacing: 0.04em;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.director-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.director-card {
+    min-width: 0;
+    padding: 12px;
+    text-align: center;
+    color: inherit;
+    background: rgba(10, 25, 82, 0.5);
+    border: 1px solid rgba(128, 167, 255, 0.2);
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    text-decoration: none;
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.director-card.is-linked {
+    cursor: pointer;
+}
+
+.director-card.is-linked:hover,
+.director-card.is-linked:focus-visible {
+    background: rgba(20, 47, 124, 0.72);
+    border-color: rgba(160, 196, 255, 0.6);
+    outline: none;
+    transform: translateY(-4px);
+}
+
+.director-avatar {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 14px;
+    color: #ffffff;
+    background: linear-gradient(145deg, #8531d5, #4b176e);
+    font-size: clamp(1.1rem, 2.7vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.director-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.director-role {
+    margin: 0;
+}
+
+.director-card h3 {
+    margin: 7px 0 5px;
+    color: #ffffff;
+    font-size: clamp(0.78rem, 1.55vw, 0.98rem);
+    line-height: 1.15;
+}
+
+.director-role {
+    color: #e5d5ff;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.social-button svg {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
+    fill: currentColor;
+}
+
+@media (max-width: 760px) {
+    .director-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 430px) {
+    .director-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@property --director-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes director-outline-spin {
+    to {
+        --director-angle: 360deg;
+    }
+}
+
+.director-card[data-director="beanzie"] {
+    --director-color-one: #0025AA;
+    --director-color-two: #DE8938;
+    --director-glow: rgba(32, 88, 205, 0.52);
+}
+
+.director-card[data-director="chai"] {
+    --director-color-one: #AD9CFD;
+    --director-color-two: #E075AC;
+    --director-glow: rgba(190, 132, 225, 0.5);
+}
+
+.director-card[data-director="lunar"] {
+    --director-color-one: #DDCEEF;
+    --director-color-two: #6644A6;
+    --director-glow: rgba(145, 103, 203, 0.52);
+}
+
+.director-card[data-director="socks"] {
+    --director-color-one: #FF97EC;
+    --director-color-two: #FEFF73;
+    --director-color-three: #74FF68;
+    --director-glow: rgba(252, 145, 220, 0.5);
+}
+
+.director-card[data-director="melgel"] {
+    --director-color-one: #F9ECC5;
+    --director-color-two: #69B655;
+    --director-glow: rgba(158, 205, 112, 0.5);
+}
+
+.director-card[data-director="itskayavo"] {
+    --director-color-one: #E1DFD7;
+    --director-color-two: #95857D;
+    --director-glow: rgba(195, 186, 178, 0.46);
+}
+
+.director-card.is-linked:hover,
+.director-card.is-linked:focus-visible {
+    border-color: transparent;
+    background:
+        linear-gradient(rgba(10, 25, 82, 0.82), rgba(10, 25, 82, 0.72)) padding-box,
+        conic-gradient(
+            from var(--director-angle),
+            var(--director-color-one),
+            var(--director-color-two),
+            var(--director-color-three, var(--director-color-one)),
+            var(--director-color-one)
+        ) border-box;
+    box-shadow: 0 0 16px var(--director-glow), 0 0 32px color-mix(in srgb, var(--director-glow) 48%, transparent), 0 10px 24px rgba(0, 0, 0, 0.24);
+    animation: director-outline-spin 3.25s linear infinite;
+}
+
+.director-card.is-linked:hover .director-avatar img,
+.director-card.is-linked:focus-visible .director-avatar img {
+    transform: scale(1.045);
+}
+
+.director-avatar {
+    overflow: hidden;
+}
+
+.director-avatar img {
+    transition: transform 0.35s ease;
 }

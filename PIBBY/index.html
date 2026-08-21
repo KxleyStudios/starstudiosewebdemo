@@ -484,9 +484,9 @@
             <div class="update-item"><span class="update-date">Oct 30, 2026</span><div class="update-body"><strong>Hopeful release date</strong><p>The team is aiming for an October 30th 2026 release.</p></div></div>
         </div>
         <div class="show-card full">
-            <h2>CONTENT</h2>
+            <h2>VIDEOS</h2>
             <div class="episodes-list" id="episodes-container">
-                <div class="episodes-loading">Loading content...</div>
+                <div class="episodes-loading">Loading videos...</div>
             </div>
         </div>
     </div>
@@ -620,7 +620,7 @@ requestAnimationFrame(animate);
     const rssUrl = 'https://www.youtube.com/feeds/videos.xml?playlist_id=' + PLAYLIST_ID;
     const corsProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
 
-    container.innerHTML = '<div class="episodes-loading">Loading content...</div>';
+    container.innerHTML = '<div class="episodes-loading">Loading videos...</div>';
 
     fetch(corsProxy)
         .then(r => r.json())
@@ -630,7 +630,7 @@ requestAnimationFrame(animate);
             const entries = xml.querySelectorAll('entry');
 
             if (!entries.length) {
-                container.innerHTML = '<div class="episodes-error">No content yet. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">View on YouTube</a></div>';
+                container.innerHTML = '<div class="episodes-error">No videos yet. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">View on YouTube</a></div>';
                 return;
             }
 
@@ -648,7 +648,7 @@ requestAnimationFrame(animate);
                         '<div class="ep-play"><svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>' +
                     '</div>' +
                     '<div class="ep-info">' +
-                        '<div class="ep-num">Content ' + (i + 1) + '</div>' +
+                        '<div class="ep-num">Video ' + (i + 1) + '</div>' +
                         '<div class="ep-title">' + title + '</div>' +
                         '<div class="ep-desc">' + desc.slice(0, 120) + (desc.length > 120 ? '…' : '') + '</div>' +
                     '</div>' +
@@ -658,7 +658,7 @@ requestAnimationFrame(animate);
             container.innerHTML = html;
         })
         .catch(() => {
-            container.innerHTML = '<div class="episodes-error">Could not load content. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">Watch on YouTube</a></div>';
+            container.innerHTML = '<div class="episodes-error">Could not load videos. <a href="https://www.youtube.com/playlist?list=' + PLAYLIST_ID + '" target="_blank">Watch on YouTube</a></div>';
         });
 })();
 </script>

@@ -17,7 +17,7 @@
 
 </head>
 <body>
-    <canvas id="galaxy-bg"></canvas>
+    <div id="site-background" aria-hidden="true"></div>
 
     <nav class="topnav">
         <a href="careers/" class="topnav-btn">Join the Team ›</a>
@@ -45,11 +45,59 @@
                     </svg>
                     Discord
                 </a>
+                <a href="https://www.tiktok.com/@star.studios.prod" class="social-button tiktok" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 0c.1 1.2.8 2.2 1.8 2.8.7.4 1.5.6 2.2.6v2.4c-1.5 0-2.9-.5-4-1.4v5.1A4.5 4.5 0 1 1 5 5v2.5a2.1 2.1 0 1 0 2.1 2.1V0h2.4Z"/></svg>
+                    TikTok
+                </a>
+                <a href="https://www.instagram.com/starstudiosproductionco/" class="social-button instagram" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                        <path d="M22.3,8.4c-0.8,0-1.4,0.6-1.4,1.4c0,0.8,0.6,1.4,1.4,1.4c0.8,0,1.4-0.6,1.4-1.4C23.7,9,23.1,8.4,22.3,8.4z"/>
+                        <path d="M16,10.2c-3.3,0-5.9,2.7-5.9,5.9s2.7,5.9,5.9,5.9s5.9-2.7,5.9-5.9S19.3,10.2,16,10.2z M16,19.9c-2.1,0-3.8-1.7-3.8-3.8c0-2.1,1.7-3.8,3.8-3.8c2.1,0,3.8,1.7,3.8,3.8C19.8,18.2,18.1,19.9,16,19.9z"/>
+                        <path d="M20.8,4h-9.5C7.2,4,4,7.2,4,11.2v9.5c0,4,3.2,7.2,7.2,7.2h9.5c4,0,7.2-3.2,7.2-7.2v-9.5C28,7.2,24.8,4,20.8,4z M25.7,20.8c0,2.7-2.2,5-5,5h-9.5c-2.7,0-5-2.2-5-5v-9.5c0-2.7,2.2-5,5-5h9.5c2.7,0,5,2.2,5,5V20.8z"/>
+                    </svg>
+                    Instagram
+                </a>
             </div>
         </header>
 
         <section class="bio">
             <p>We are an indie animation studio focused on original series and fan projects, although we are small... we are doing our best to bring new shows to the table!</p>
+        </section>
+
+        <section class="directors" aria-labelledby="directors-title">
+            <h2 id="directors-title">MEET THE DIRECTORS</h2>
+            <div class="director-grid">
+                <a class="director-card" data-director="itskayavo">
+                    <div class="director-avatar"><img src="assets/directors/itskayavo.png" alt="Devon Castro"></div>
+                    <h3>Devon Castro</h3>
+                    <p class="director-role">CEO</p>
+                </a>
+                <a class="director-card" data-director="melgel">
+                    <div class="director-avatar"><img src="assets/directors/melgel.png" alt="Anyelo Llerena"></div>
+                    <h3>Anyelo Llerena</h3>
+                    <p class="director-role">Co-CEO</p>
+                </a>
+                <a class="director-card" data-director="socks">
+                    <div class="director-avatar"><img src="assets/directors/socks.jpg" alt="Sophie Reece"></div>
+                    <h3>Sophie Reece</h3>
+                    <p class="director-role">Lead Director</p>
+                </a>
+                <a class="director-card" data-director="lunar">
+                    <div class="director-avatar"><img src="assets/directors/lunar.jpg" alt="Alita Blount"></div>
+                    <h3>Alita Blount</h3>
+                    <p class="director-role">Lead Director</p>
+                </a>
+                <a class="director-card" data-director="chai">
+                    <div class="director-avatar"><img src="assets/directors/chai.jpg" alt="Christopher Dawoodi"></div>
+                    <h3>Christopher Dawoodi</h3>
+                    <p class="director-role">Lead Director</p>
+                </a>
+                <a class="director-card" data-director="beanzie">
+                    <div class="director-avatar"><img src="assets/directors/beanzie.png" alt="Josiah Majors-Irwin"></div>
+                    <h3>Josiah Majors-Irwin</h3>
+                    <p class="director-role">Lead Director</p>
+                </a>
+            </div>
         </section>
 
         <section class="projects">
@@ -126,31 +174,27 @@
     </div>
 
     <script>
-    const canvas = document.getElementById('galaxy-bg');
-    const ctx = canvas.getContext('2d');
-    const p = new Uint8Array(256);
-    for (let i = 0; i < 256; i++) p[i] = i;
-    for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
-    const perm = new Uint8Array(512);
-    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
-    function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-    function lerp(a, b, t) { return a + t * (b - a); }
-    function grad(hash, x, y) { const h = hash & 3; const u = h < 2 ? x : y, v = h < 2 ? y : x; return ((h & 1) ? -u : u) + ((h & 2) ? -v : v); }
-    function noise(x, y) { const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y); const u = fade(x), v = fade(y); const a = perm[X] + Y, b = perm[X + 1] + Y; return lerp(lerp(grad(perm[a], x, y), grad(perm[b], x - 1, y), u), lerp(grad(perm[a + 1], x, y - 1), grad(perm[b + 1], x - 1, y - 1), u), v); }
-    function fbm(x, y, octaves = 5) { let val = 0, amp = 0.5, freq = 1, max = 0; for (let i = 0; i < octaves; i++) { val += noise(x * freq, y * freq) * amp; max += amp; amp *= 0.5; freq *= 2.1; } return val / max; }
-    function noiseToColor(n) { const t = (n + 1) * 0.5; if (t < 0.28) { const f = t / 0.28; return [lerp(4, 10, f), lerp(3, 8, f), lerp(20, 40, f)]; } else if (t < 0.52) { const f = (t - 0.28) / 0.24; return [lerp(10, 25, f), lerp(8, 22, f), lerp(40, 100, f)]; } else if (t < 0.74) { const f = (t - 0.52) / 0.22; return [lerp(25, 42, f), lerp(22, 19, f), lerp(100, 107, f)]; } else { const f = Math.min((t - 0.74) / 0.26, 1); return [lerp(42, 100, f), lerp(19, 30, f), lerp(107, 180, f)]; } }
-    let stars = [];
-    function initStars() { stars = []; const count = Math.floor((canvas.width * canvas.height) / 4500); for (let i = 0; i < count; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5 + 0.15, alpha: Math.random() * 0.55 + 0.35, speed: Math.random() * 0.015 + 0.004, phase: Math.random() * Math.PI * 2 }); } }
-    let noiseCanvas, noiseCtx;
-    const SCALE = 4;
-    function buildNoiseCanvas() { noiseCanvas = document.createElement('canvas'); noiseCanvas.width = Math.ceil(canvas.width / SCALE); noiseCanvas.height = Math.ceil(canvas.height / SCALE); noiseCtx = noiseCanvas.getContext('2d'); }
-    function drawNoise(t) { const w = noiseCanvas.width, h = noiseCanvas.height; const img = noiseCtx.createImageData(w, h); const xScale = 0.003, yScale = 0.003; const drift = t * 0.014; for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) { const n = fbm(x * xScale + drift, y * yScale + drift * 0.55); const [r, g, b] = noiseToColor(n); const i = (y * w + x) * 4; img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255; } } noiseCtx.putImageData(img, 0, 0); }
-    function resize() { canvas.width = window.innerWidth; canvas.height = Math.max(window.innerHeight, document.body.scrollHeight); buildNoiseCanvas(); initStars(); }
-    let lastNoise = -999, noiseTime = 0;
-    const NOISE_INTERVAL = 0.15;
-    function animate(ts) { noiseTime = ts * 0.001; if (noiseTime - lastNoise > NOISE_INTERVAL) { drawNoise(noiseTime); lastNoise = noiseTime; } ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.drawImage(noiseCanvas, 0, 0, canvas.width, canvas.height); for (const s of stars) { const alpha = s.alpha * (0.55 + 0.45 * Math.sin(noiseTime * s.speed * 60 + s.phase)); ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(237,233,255,${alpha.toFixed(3)})`; ctx.fill(); } requestAnimationFrame(animate); }
-    window.addEventListener('resize', () => { resize(); });
-    resize(); drawNoise(0); requestAnimationFrame(animate);
+    // Paste a full social link between the quotes for any director card you want to make clickable.
+    const directorSocialLinks = {
+        itskayavo: 'https://www.youtube.com/@itsKayaVo',
+        melgel: 'https://x.com/SuperDaDragon',
+        socks: 'https://www.youtube.com/@RealSockzzz',
+        lunar: 'https://www.youtube.com/@The_Lunarcorn8650',
+        chai: 'https://www.youtube.com/@Christopher_VA',
+        beanzie: 'https://x.com/skypatr0lizhere'
+    };
+
+    document.querySelectorAll('.director-card[data-director]').forEach((card) => {
+        const link = directorSocialLinks[card.dataset.director];
+        if (!link) return;
+
+        card.href = link;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.classList.add('is-linked');
+        card.setAttribute('aria-label', `Open ${card.dataset.director} social link`);
+    });
+
     </script>
 </body>
 </html>
